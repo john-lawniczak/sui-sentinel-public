@@ -1,0 +1,15 @@
+*
+!Cargo.toml
+!Cargo.lock
+!deploy
+!deploy/config
+!deploy/config/stress.toml
+!deploy/config/monitoring.toml
+!migrations
+!migrations/**
+!src
+!src/**
+!deploy/ops
+!deploy/ops/entrypoint.sh
+!deploy/config/monitoring.mainnet.toml
+!deploy/config/suilend.toml

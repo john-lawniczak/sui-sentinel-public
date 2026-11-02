@@ -1,0 +1,181 @@
+{
+  "date": "2026-11-02",
+  "qualification": "R1_INCOMPLETE_NOT_DEPLOYED",
+  "base_revision": "4f72f03",
+  "candidate_build_revision": "4f72f03-candidate",
+  "final_image": "sha256:159a3506c6cc1e08e71e1658d73f222216ccda3c38fcd5576eb84a4bc3131534",
+  "full_capture_earlier_candidate": {
+    "state": "published",
+    "output_directory": "/data/run-1793644903153948296-13-0",
+    "started_at": "2026-11-02T18:41:43.153953713Z",
+    "finished_at": "2026-11-02T18:48:55.725322885Z",
+    "duration_seconds": 432.570424407,
+    "checkpoint": 340940027,
+    "position_count": 150166,
+    "market_count": 1,
+    "error_category": null,
+    "error_message": null,
+    "retries": 0,
+    "transport": {
+      "attempts": 5928,
+      "retries": 0,
+      "throttled": 0,
+      "response_bytes": 503232883,
+      "failed_attempts": 0
+    },
+    "phases": {
+      "analyzing": "2026-11-02T18:48:51.045955091Z",
+      "captured": "2026-11-02T18:48:51.045451341Z",
+      "collecting": "2026-11-02T18:41:43.156116963Z",
+      "validating": "2026-11-02T18:48:54.456416343Z"
+    }
+  },
+  "quicknode_bounded_probe": {
+    "provider": "QuickNode Sui Mainnet",
+    "requests": [
+      {
+        "seconds": 0.08126174999051727,
+        "graphql_errors": 0
+      },
+      {
+        "seconds": 0.15919991699047387,
+        "graphql_errors": 0
+      },
+      {
+        "seconds": 0.14228145801462233,
+        "graphql_errors": 0
+      }
+    ],
+    "checkpoint": {
+      "sequenceNumber": 340945327,
+      "timestamp": "2026-11-02T19:03:12.237Z",
+      "digest": "BpDqi43rgzwLRsJhS1MuRCTh2qFtUWzehX6XdbuxqpAs"
+    },
+    "pinned_clock_repeat_matches": true,
+    "verdict": "PASS_BOUNDED_PROBE_ONLY"
+  },
+  "full_projection_restore": {
+    "database_bytes": 3560956431,
+    "backup_seconds": 7.152856042026542,
+    "restore_seconds": 11.030004332977114,
+    "total_seconds": 18.182860375003656
+  },
+  "restored_projection_matches": true,
+  "role_checks": [
+    {
+      "role": "sentinel_monitor",
+      "operation": "SELECT count(*) FROM operator_audit",
+      "expected_allowed": true,
+      "passed": true
+    },
+    {
+      "role": "sentinel_monitor",
+      "operation": "CREATE TABLE forbidden_test(id integer)",
+      "expected_allowed": false,
+      "passed": true
+    },
+    {
+      "role": "sentinel_reader",
+      "operation": "UPDATE incidents SET state=state WHERE false",
+      "expected_allowed": false,
+      "passed": true
+    },
+    {
+      "role": "sentinel_delivery",
+      "operation": "UPDATE incidents SET state=state WHERE false",
+      "expected_allowed": false,
+      "passed": true
+    },
+    {
+      "role": "sentinel_operator",
+      "operation": "DELETE FROM operator_audit WHERE false",
+      "expected_allowed": false,
+      "passed": true
+    },
+    {
+      "role": "sentinel_operator",
+      "operation": "UPDATE incidents SET severity=severity WHERE false",
+      "expected_allowed": false,
+      "passed": true
+    },
+    {
+      "role": "sentinel_operator",
+      "operation": "UPDATE incidents SET state=state WHERE false",
+      "expected_allowed": true,
+      "passed": true
+    }
+  ],
+  "rust_tests_passed": 123,
+  "python_tests_passed": 2,
+  "grafana_queries": 41,
+  "prometheus_alert_rules": 5,
+  "advisories": {
+    "image-final.json": {
+      "CRITICAL": 0,
+      "HIGH": 0,
+      "MEDIUM": 36,
+      "LOW": 8,
+      "UNKNOWN": 0
+    },
+    "dependencies-final.json": {
+      "CRITICAL": 0,
+      "HIGH": 0,
+      "MEDIUM": 0,
+      "LOW": 0,
+      "UNKNOWN": 0
+    }
+  },
+  "soak_smoke": {
+    "verdict": "INCOMPLETE",
+    "elapsed_seconds": 600,
+    "required_seconds": 604800,
+    "expected_slots": 40,
+    "available_slots": 40,
+    "ready_slots": 30,
+    "missing_slots": 0,
+    "query_availability": 1.0,
+    "fresh_complete_availability": 0.75,
+    "build_revisions": [
+      "4f72f03-candidate"
+    ],
+    "build_pinned": false,
+    "samples_sha256": "ad65f051143b36f6111371548698ccf38af8334db8485def1816fdf62bc739f1",
+    "limitation": "Sampled intervals, not exact continuous uptime. R1 additionally requires recovery, delivery, security and operator UX gates."
+  },
+  "local_artifacts": {
+    "tests-final.log": "a8926701ea366f7bfcd3acdeb97d57cff2c41ca5488ff5da92a63b78e5a1befa",
+    "build-final.log": "626a4faf554bed2441ddce94d4a537fdb4097b3b0750e0433d625c1aa7911273",
+    "image-final.json": "8154442daeb6ab81aacd2232169db02f16defb25ea7656e81ecc87d7b296cdc2",
+    "dependencies-final.json": "5e76b865ae68924455a40fcb52b52bd870604d8262acbf89f6c8884ebba91b02",
+    "sbom.json": "966a71bfb117cb9da881fef2669e27c4e62386e7f3e9dacd1756c9e5667abc9e",
+    "role-checks.json": "e21732c09729853695749bd90cd660182455e6f1bdffe6e003282945504cb8f6",
+    "restore-full.json": "e760323309f2c79035d8c264c9bd70814036980b474ed8e6cacfe02ca6684fa5",
+    "restore-comparison.json": "15900ee0e59e17d448008c7aeb6964734a642d5d51a9383c05273ba2ca61a222",
+    "restore.log": "436b435db5b5f10963163e248d5d13cae40a47651c4789d917f5bc03f3d4862c",
+    "quicknode-probe.json": "3b459b1d3eaa53629f487654a92fe86b24bf1f836c88baaea79f89d24e807c40",
+    "disk-full.log": "90c4e5f724ca8599a9ad1c2aedfbbe05e986731e9c28bb2483d7e611319ae354",
+    "soak-smoke-result.json": "5ab43968b09ae51c160938b700f6a4cb70c1b50306ae44174d104519ca5cb5ec",
+    "final-container-status.json": "2c1deec6ec97f027d9b9c08d0b9b507dfb83fa0279e6c65e8c33e8e8f8372ca4"
+  },
+  "remaining_gates": [
+    "full QuickNode census and account capacity",
+    "Fly app configuration and credentials",
+    "production Discord acceptance",
+    "hosted backup/PITR and upgrade rollback",
+    "rendered and operator UX",
+    "seven-day source-pinned independent soak"
+  ],
+  "raw_artifacts_location": "snapshots/r1-release-2026-11-02 (local, ignored; contains protected backups and credentials; do not upload directory wholesale)",
+  "final_linux_smoke": {
+    "authenticated_status": true,
+    "unauthenticated_status_http": 401,
+    "public_liveness_http": 200,
+    "observer_ok": true,
+    "database_ok": true,
+    "retained_report_available": true,
+    "failure_category": "provider_failure",
+    "notification_pending": 0,
+    "provider_attempts": 4,
+    "provider_retries": 3
+  }
+}

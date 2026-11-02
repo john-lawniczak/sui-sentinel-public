@@ -1,0 +1,50 @@
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: sentinel
+      POSTGRES_USER: sentinel
+      POSTGRES_PASSWORD: ${SENTINEL_DB_PASSWORD:?Set SENTINEL_DB_PASSWORD}
+    volumes: [sentinel-db:/var/lib/postgresql/data]
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U sentinel -d sentinel']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+    mem_limit: 512m
+
+  monitor:
+    image: sui-sentinel-exporter
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+      args:
+        SOURCE_REVISION: ${SENTINEL_SOURCE_REVISION:-unrecorded}
+    command: [monitor, --out, /data, --scope, suilend-main, --config, /config/suilend.toml, --policy, /config/monitoring.toml]
+    environment:
+      DIAGNOSIS_DATABASE_URL: ${DIAGNOSIS_DATABASE_URL:?Set database URL for the postgres service; URL-encode its password}
+      SUI_GRAPHQL_URL: ${SUI_GRAPHQL_URL:-https://graphql.mainnet.sui.io/graphql}
+      SUI_API_KEY: ${SUI_API_KEY:-}
+      SUI_SNAPSHOT_CHECKPOINT_LAG: ${SUI_SNAPSHOT_CHECKPOINT_LAG:-0}
+      SUI_API_KEY_HEADER: ${SUI_API_KEY_HEADER:-authorization}
+      SENTINEL_WEBHOOK_URL: ${SENTINEL_WEBHOOK_URL:?Set the notification receiver URL}
+      SENTINEL_WEBHOOK_FORMAT: ${SENTINEL_WEBHOOK_FORMAT:-generic}
+      SENTINEL_WEBHOOK_TOKEN: ${SENTINEL_WEBHOOK_TOKEN:-}
+    volumes:
+      - ${SENTINEL_DATA_PATH:?Set SENTINEL_DATA_PATH}:/data
+      - ./config/suilend.toml:/config/suilend.toml:ro
+      - ${SENTINEL_POLICY_PATH:-./config/monitoring.toml}:/config/monitoring.toml:ro
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    depends_on:
+      postgres: {condition: service_healthy}
+    restart: unless-stopped
+    stop_grace_period: 20s
+    mem_limit: 2g
+    cpus: 2.0
+    pids_limit: 64
+
+volumes:
+  sentinel-db:

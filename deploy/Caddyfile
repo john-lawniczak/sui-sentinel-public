@@ -1,0 +1,16 @@
+{$SENTINEL_DOMAIN} {
+    basic_auth {
+        {$SENTINEL_AUTH_USER} {$SENTINEL_AUTH_HASH}
+    }
+    header {
+        Strict-Transport-Security "max-age=31536000"
+        X-Content-Type-Options nosniff
+        Referrer-Policy same-origin
+    }
+    handle_path /diagnostics/* {
+        reverse_proxy exporter:9108
+    }
+    handle {
+        reverse_proxy grafana:3000
+    }
+}

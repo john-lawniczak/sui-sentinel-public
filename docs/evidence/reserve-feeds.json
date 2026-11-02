@@ -1,0 +1,362 @@
+[
+  {
+    "reserve_index": 0,
+    "reserve_id": "0x321d5e28d3a570882331b5f76b3bc9fd2650414d2264b8115606482e1fb76e97",
+    "coin_type": "0x0000000000000000000000000000000000000000000000000000000000000002::sui::SUI",
+    "decimals": 9,
+    "raw_pyth_feed_id": "23d7315113f5b1d3ba7a83604c44b94d79f4fd69af77f804fc7f920a6dc65744",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 1,
+    "reserve_id": "0x0b8faf51e65f0beee47f6b9627108ee25b5a2b922ae7ee5725485ed7a9293523",
+    "coin_type": "0x5d4b302506645c37ff133b98c4b50a5ae14841659738d6d733d59d0d217a93bf::coin::COIN",
+    "decimals": 6,
+    "raw_pyth_feed_id": "eaa020c61cc479712813461ce153894a96a6c00b21ed0cfc2798d1f9a9e9c94a",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 2,
+    "reserve_id": "0x4c10ee8a249415aae340c468a5a0a757607368e2e94cebf870d0f3f4d198ea3f",
+    "coin_type": "0xc060006111016b8a020ad5b33834984a437aaa7d3c74c18e09a95d48aceab08c::coin::COIN",
+    "decimals": 6,
+    "raw_pyth_feed_id": "2b89b9dc8fdf9f34709a5b106b472f0f39bb6ca9ce04b0fd7f2e971688e2e53b",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 3,
+    "reserve_id": "0x40a0bb8ddccbe2f924e51f43e8d456239500c605727763f413ab77e60b3d284a",
+    "coin_type": "0xaf8cd5edc19c4512f4259f0bee101a40d41ebed738ade5874359610ef8eeced5::coin::COIN",
+    "decimals": 8,
+    "raw_pyth_feed_id": "ff61491a931112ddf1bd8147cd1b641375f79f5825126d665480874634fd0ace",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 4,
+    "reserve_id": "0xae8a7d4835824449d9c3ef73f61509c1650d33bea843566038b0521a1f503319",
+    "coin_type": "0xb7844e289a8410e50fb3ca48d69eb9cf29e27d223ef90353fe1bd8e27ff8f3f8::coin::COIN",
+    "decimals": 8,
+    "raw_pyth_feed_id": "ef0d8b6fda2ceba41da15d4095d1da392a0d2f8ed0c6c7bc0f4cfac8c280b56d",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 5,
+    "reserve_id": "0x0cbad6ed98f495f4fb11da3550c0367d826a48c524022932afc851e068f5e4c9",
+    "coin_type": "0x2053d08c1e2bd02791056171aab0fd12bd7cd7efad2ab8f6b9c8902f14df2ff2::ausd::AUSD",
+    "decimals": 6,
+    "raw_pyth_feed_id": "d9912df360b5b7f21a122f15bdd5e27f62ce5e72bd316c291f7c86620e07fb2a",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 6,
+    "reserve_id": "0xb25b8eabdc3160bf43e5648079c79cb102e80b18d399b6e8b18e0427a2711eae",
+    "coin_type": "0x76cb819b01abed502bee8a702b4c2d547532c12f25001c9dea795a5e631c26f1::fud::FUD",
+    "decimals": 5,
+    "raw_pyth_feed_id": "eaa020c61cc479712813461ce153894a96a6c00b21ed0cfc2798d1f9a9e9c94a",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 7,
+    "reserve_id": "0xd388bc079ea1f647f519fce10bcf72f028fad967b440371ebe0a554eae1c2c15",
+    "coin_type": "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
+    "decimals": 6,
+    "raw_pyth_feed_id": "eaa020c61cc479712813461ce153894a96a6c00b21ed0cfc2798d1f9a9e9c94a",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 8,
+    "reserve_id": "0xdb9863c5adb5ecf0fc2c58c2f82fd37bc29b9710233f766ab7b55879fc2c6b1f",
+    "coin_type": "0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP",
+    "decimals": 6,
+    "raw_pyth_feed_id": "29bdd5248234e33bd93d3b81100b5fa32eaa5997843847e2c2cb16d7c6d9f7ff",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 9,
+    "reserve_id": "0xdb864ae82293865b55c9a7826f363a59126193ef9c5192b5da793824deefce21",
+    "coin_type": "0xd0e89b2af5e4910726fbcd8b8dd37bb79b29e5f83f7491bca830e94f7f226d29::eth::ETH",
+    "decimals": 8,
+    "raw_pyth_feed_id": "ff61491a931112ddf1bd8147cd1b641375f79f5825126d665480874634fd0ace",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 10,
+    "reserve_id": "0x426d9b842650bda8efeabd29329d3e8abc2f7b4fd98679ea9ab478ff60e53f43",
+    "coin_type": "0x83556891f4a0f233ce7b05cfe7f957d4020492a34f5405b2cb9377d060bef4bf::spring_sui::SPRING_SUI",
+    "decimals": 9,
+    "raw_pyth_feed_id": "23d7315113f5b1d3ba7a83604c44b94d79f4fd69af77f804fc7f920a6dc65744",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 11,
+    "reserve_id": "0x04bfde979e34c42f2c66824df43b6d0b4e951488d30ad3afda3860eec003b909",
+    "coin_type": "0x922d15d7f55c13fd790f6e54397470ec592caa2b508df292a2e8553f3d3b274f::msui::MSUI",
+    "decimals": 9,
+    "raw_pyth_feed_id": "23d7315113f5b1d3ba7a83604c44b94d79f4fd69af77f804fc7f920a6dc65744",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 12,
+    "reserve_id": "0x8e3a38a7ed64a3debc9adf06976ae75fb9f719aa43449820c7b17c3075d2b499",
+    "coin_type": "0x8993129d72e733985f7f1a00396cbd055bad6f817fee36576ce483c8bbb8b87b::sudeng::SUDENG",
+    "decimals": 9,
+    "raw_pyth_feed_id": "eaa020c61cc479712813461ce153894a96a6c00b21ed0cfc2798d1f9a9e9c94a",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 13,
+    "reserve_id": "0x522bcd06f4f31cc357fbed6d537e58baffdb45220c0a6e1acc6f6d7543411090",
+    "coin_type": "0x5145494a5f5100e645e4b0aa950fa6b68f614e8c59e17bc5ded3495123a79178::ns::NS",
+    "decimals": 6,
+    "raw_pyth_feed_id": "bb5ff26e47a3a6cc7ec2fce1db996c2a145300edc5acaabe43bf9ff7c5dd5d32",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 14,
+    "reserve_id": "0x51d4a3e405399d428314051e19d7dae3297d4c095d653e9652584935929bdcc3",
+    "coin_type": "0x02358129a7d66f943786a10b518fdc79145f1fc8d23420d9948c4aeea190f603::fud_sui::FUD_SUI",
+    "decimals": 9,
+    "raw_pyth_feed_id": "23d7315113f5b1d3ba7a83604c44b94d79f4fd69af77f804fc7f920a6dc65744",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 15,
+    "reserve_id": "0x5f75df112ab149874ac6b512ce46e459a47e7114bc488932b825589240adf876",
+    "coin_type": "0x41ff228bfd566f0c707173ee6413962a77e3929588d010250e4e76f0d1cc0ad4::ksui::KSUI",
+    "decimals": 9,
+    "raw_pyth_feed_id": "23d7315113f5b1d3ba7a83604c44b94d79f4fd69af77f804fc7f920a6dc65744",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 16,
+    "reserve_id": "0xe45b641af15ad76a67af5d482cf7b34bd9dbb7e615f5063dba014ef577d01dd1",
+    "coin_type": "0x502867b177303bf1bf226245fcdd3403c177e78d175a55a56c0602c7ff51c7fa::trevin_sui::TREVIN_SUI",
+    "decimals": 9,
+    "raw_pyth_feed_id": "23d7315113f5b1d3ba7a83604c44b94d79f4fd69af77f804fc7f920a6dc65744",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 17,
+    "reserve_id": "0xaf4e7a8cab48d01549b31723737ca108536fdbe9cee6a7761bbbc11deaa06ccf",
+    "coin_type": "0xb45fcfcc2cc07ce0702cc2d229621e046c906ef14d9b25e8e4d25f6e8763fef7::send::SEND",
+    "decimals": 6,
+    "raw_pyth_feed_id": "eaa020c61cc479712813461ce153894a96a6c00b21ed0cfc2798d1f9a9e9c94a",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 18,
+    "reserve_id": "0x8cdfbda7ecfe79fb4b109787c3a3400f63c41996403fc0bc5220edbd4f1d582e",
+    "coin_type": "0xe68fad47384e18cd79040cb8d72b7f64d267eebb73a0b8d54711aa860570f404::upsui::UPSUI",
+    "decimals": 9,
+    "raw_pyth_feed_id": "23d7315113f5b1d3ba7a83604c44b94d79f4fd69af77f804fc7f920a6dc65744",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 19,
+    "reserve_id": "0xf8fa8c640ec9d55a3b0fef6856002cc57b21e2d7c2ed6a1a151bd76bdf8659e8",
+    "coin_type": "0x375f70cf2ae4c00bf37117d0c85a2c71545e6ee05c4a5c7d282cd66a4504b068::usdt::USDT",
+    "decimals": 6,
+    "raw_pyth_feed_id": "2b89b9dc8fdf9f34709a5b106b472f0f39bb6ca9ce04b0fd7f2e971688e2e53b",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 20,
+    "reserve_id": "0x7e3b5067a14d54d573702354ca94554da56760e8f589dcd7d74f0b73f71eb3c9",
+    "coin_type": "0xce7ff77a83ea0cb6fd39bd8748e2ec89a3f41e8efdc3f4eb123e0ca37b184db2::buck::BUCK",
+    "decimals": 9,
+    "raw_pyth_feed_id": "eaa020c61cc479712813461ce153894a96a6c00b21ed0cfc2798d1f9a9e9c94a",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 21,
+    "reserve_id": "0x39bc75dc71c716017093450287fc1c90975d71785bdb33f717306f88ea862ea9",
+    "coin_type": "0xaafb102dd0902f5055cadecd687fb5b71ca82ef0e0285d90afde828ec58ca96b::btc::BTC",
+    "decimals": 8,
+    "raw_pyth_feed_id": "e62df6c8b4a85fe1a67db44dc12de5db330f7ac66b72dc658afedf0f4a415b43",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 22,
+    "reserve_id": "0x6b7554c8a43aa04525e38cdae8bb7d6db2cbb32beb6764e5eb51692049761139",
+    "coin_type": "0xe1b45a0e641b9955a20aa0ad1c1f4ad86aad8afb07296d4085e349a50e90bdca::blue::BLUE",
+    "decimals": 9,
+    "raw_pyth_feed_id": "04cfeb7b143eb9c48e9b074125c1a3447b85f59c31164dc20c1beaa6f21f2b6b",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 23,
+    "reserve_id": "0xef1dea6dec2d95e1e269e7480f6f2d485ea2522b45a230a2a692873f195d139b",
+    "coin_type": "0x83f1bb8c91ecd1fd313344058b0eed94d63c54e41d8d1ae5bff1353443517d65::yap_sui::YAP_SUI",
+    "decimals": 9,
+    "raw_pyth_feed_id": "23d7315113f5b1d3ba7a83604c44b94d79f4fd69af77f804fc7f920a6dc65744",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 24,
+    "reserve_id": "0xed85030f83ecad458b3f09240b40b2fc2be6ef0cfbb5c492bf92cb41c9764ce8",
+    "coin_type": "0x3e8e9423d80e1774a7ca128fccd8bf5f1f7753be658c5e645929037f7c819040::lbtc::LBTC",
+    "decimals": 8,
+    "raw_pyth_feed_id": "e62df6c8b4a85fe1a67db44dc12de5db330f7ac66b72dc658afedf0f4a415b43",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 25,
+    "reserve_id": "0xad5d9e2c3975d860ed58fcf6899438c516009b08a885cf8f1cec01144e269a7d",
+    "coin_type": "0xe44df51c0b21a27ab915fa1fe2ca610cd3eaa6d9666fe5e62b988bf7f0bd8722::musd::MUSD",
+    "decimals": 9,
+    "raw_pyth_feed_id": "eaa020c61cc479712813461ce153894a96a6c00b21ed0cfc2798d1f9a9e9c94a",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 26,
+    "reserve_id": "0x41497b741fb37c069467e860d21ebb6dee1f6632f881dbe89bc81143b8102c42",
+    "coin_type": "0x285b49635f4ed253967a2a4a5f0c5aea2cbd9dd0fc427b4086f3fad7ccef2c29::i_sui::I_SUI",
+    "decimals": 9,
+    "raw_pyth_feed_id": "23d7315113f5b1d3ba7a83604c44b94d79f4fd69af77f804fc7f920a6dc65744",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 27,
+    "reserve_id": "0x37a73e7081d542d4580b50d417a7c5b196ff928d204fe6be6adda4d334db354a",
+    "coin_type": "0x6b82b1ac4bf420f649c052746594a18c5df0c9fccff3a98d6856a16ba4f4e47a::steamm_lp_bsui_busdc::STEAMM_LP_BSUI_BUSDC",
+    "decimals": 9,
+    "raw_pyth_feed_id": "23d7315113f5b1d3ba7a83604c44b94d79f4fd69af77f804fc7f920a6dc65744",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 28,
+    "reserve_id": "0x662ca4ab980201da2b6629aa98a9ae2dd1f58226d1eeabe55b834156487d01f5",
+    "coin_type": "0x356a26eb9e012a68958082340d4c4116e7f55615cf27affcff209cf0ae544f59::wal::WAL",
+    "decimals": 9,
+    "raw_pyth_feed_id": "eba0732395fae9dec4bae12e52760b35fc1c5671e2da8b449c9af4efe5d54341",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 29,
+    "reserve_id": "0xdfd5dedcb54b0188ded160ab315df07dcec6b95bf56e4d0f5996cbfa2b9bacf3",
+    "coin_type": "0xaded77ced91afca17e03306d24962f782a51c7395eaf0e7bc1e08ac0dca0fd52::fl_sui::FL_SUI",
+    "decimals": 9,
+    "raw_pyth_feed_id": "23d7315113f5b1d3ba7a83604c44b94d79f4fd69af77f804fc7f920a6dc65744",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 30,
+    "reserve_id": "0x70b73489f9e3b2bd13a5971022801597d2c7d359c47de06f14756e2d5460b7db",
+    "coin_type": "0x3a304c7feba2d819ea57c3542d68439ca2c386ba02159c740f7b406e592c62ea::haedal::HAEDAL",
+    "decimals": 9,
+    "raw_pyth_feed_id": "e67d98cc1fbd94f569d5ba6c3c3c759eb3ffc5d2b28e64538a53ae13efad8fd1",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 31,
+    "reserve_id": "0x8c1fad2fe2217fe64c579809a1d855127c81afe158d4d9124f9914d17a748eb1",
+    "coin_type": "0x87dfe1248a1dc4ce473bd9cb2937d66cdc6c30fee63f3fe0dbb55c7a09d35dec::up::UP",
+    "decimals": 6,
+    "raw_pyth_feed_id": "eaa020c61cc479712813461ce153894a96a6c00b21ed0cfc2798d1f9a9e9c94a",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 32,
+    "reserve_id": "0x0ad5c8ec2664cf405b21cd8895eb6b1527769cd3b7282dd07c9953ad04993696",
+    "coin_type": "0x8400e7044d360c28dd338111d2aa54ca5bdc960a8d6b60bf3b28e1ca503df3e2::koban::KOBAN",
+    "decimals": 9,
+    "raw_pyth_feed_id": "eaa020c61cc479712813461ce153894a96a6c00b21ed0cfc2798d1f9a9e9c94a",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 33,
+    "reserve_id": "0x80bee75a7d5cbc5aebdc0aeedbd6626bb8655b0c35994bf358c0396316a9a07a",
+    "coin_type": "0x95f9ff87d8e0640cb3369bb470761b9ec46eb0ff3cc1eed417df4fa24c853f42::oshi_sui::OSHI_SUI",
+    "decimals": 9,
+    "raw_pyth_feed_id": "23d7315113f5b1d3ba7a83604c44b94d79f4fd69af77f804fc7f920a6dc65744",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 34,
+    "reserve_id": "0x9a9be598d391228af0dee654802bf14cee5c50f04bf2a94fb83b0468ef490f40",
+    "coin_type": "0xb2d912e4f100e03b7de58d874835e358dc2802f2fb8559f56a70a7c900f8fc78::jug_sui::JUG_SUI",
+    "decimals": 9,
+    "raw_pyth_feed_id": "23d7315113f5b1d3ba7a83604c44b94d79f4fd69af77f804fc7f920a6dc65744",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 35,
+    "reserve_id": "0x46bd496994e7c962dd23af49f5bff7bca9fd57ed58ababf55b31ce8ea1c5b18f",
+    "coin_type": "0x4c981f3ff786cdb9e514da897ab8a953647dae2ace9679e8358eec1e3e8871ac::dmc::DMC",
+    "decimals": 9,
+    "raw_pyth_feed_id": "8abfa63ae82ca2fbc271861375e497166d8792580fb7c2ffcf014d2a131433f0",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 36,
+    "reserve_id": "0xf8cc1323a2b11266f8e18a1d8903c1f20b6360324a25c9a668ed60c13abb8198",
+    "coin_type": "0x876a4b7bce8aeaef60464c11f4026903e9afacab79b9b142686158aa86560b50::xbtc::XBTC",
+    "decimals": 8,
+    "raw_pyth_feed_id": "e62df6c8b4a85fe1a67db44dc12de5db330f7ac66b72dc658afedf0f4a415b43",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 37,
+    "reserve_id": "0x136d6a07016f1e489a14a9e0ec022ec1ce982855f1f44062545f435f96ee54a8",
+    "coin_type": "0x7262fb2f7a3a14c888c438a3cd9b912469a58cf60f367352c46584262e8299aa::ika::IKA",
+    "decimals": 9,
+    "raw_pyth_feed_id": "2b529621fa6e2c8429f623ba705572aa64175d7768365ef829df6a12c9f365f4",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 38,
+    "reserve_id": "0x144d3ecfa9b59ab2a82b781dba5dbfcb9dbf158e4914cc21639bd2c03177c8d0",
+    "coin_type": "0x1fea5652ae6ba58120a3262cff764b5abefe39ce603cdd5c5ca19fc584b6847e::strat_sui::STRAT_SUI",
+    "decimals": 9,
+    "raw_pyth_feed_id": "23d7315113f5b1d3ba7a83604c44b94d79f4fd69af77f804fc7f920a6dc65744",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 39,
+    "reserve_id": "0xb0e6a6b19cc1d394dc0987ea594b2eb1bcba35507ac31195d73229cf55400eaa",
+    "coin_type": "0x1a8f4bc33f8ef7fbc851f156857aa65d397a6a6fd27a7ac2ca717b51f2fd9489::alkimi::ALKIMI",
+    "decimals": 9,
+    "raw_pyth_feed_id": "eaa020c61cc479712813461ce153894a96a6c00b21ed0cfc2798d1f9a9e9c94a",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 40,
+    "reserve_id": "0xa97d3364e987f3f629f5753503ae050b87df08601262168515b5c5f2c53dd58c",
+    "coin_type": "0x5a71532c1e812daeffd07ef375451fad7a2906d01151bade4d5018ffc5a3c267::o_sui::O_SUI",
+    "decimals": 9,
+    "raw_pyth_feed_id": "23d7315113f5b1d3ba7a83604c44b94d79f4fd69af77f804fc7f920a6dc65744",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 41,
+    "reserve_id": "0xd64675c84a9c49f0db9f37130a534de82c2ce9ace42f3e3a42e4fb62ab0bb61a",
+    "coin_type": "0x5fb5365e645d9728660e4ba13cb1c8eefcb950e7c20472c168d97adb36b7415c::fp_sui::FP_SUI",
+    "decimals": 9,
+    "raw_pyth_feed_id": "23d7315113f5b1d3ba7a83604c44b94d79f4fd69af77f804fc7f920a6dc65744",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 42,
+    "reserve_id": "0x0d0a32f29f05df21f25d210fc84783246ee2f42a477f6ea0df97dfcf3fad8bbe",
+    "coin_type": "0x0041f9f9344cac094454cd574e333c4fdb132d7bcc9379bcd4aab485b2a63942::wbtc::WBTC",
+    "decimals": 8,
+    "raw_pyth_feed_id": "e62df6c8b4a85fe1a67db44dc12de5db330f7ac66b72dc658afedf0f4a415b43",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 43,
+    "reserve_id": "0xc0e90f7fd3f41f8da1aa9c183de5e00cfb6907e2dfe967001d4f0be47d3281f9",
+    "coin_type": "0x41d587e5336f1c86cad50d38a7136db99333bb9bda91cea4ba69115defeb1402::sui_usde::SUI_USDE",
+    "decimals": 6,
+    "raw_pyth_feed_id": "eaa020c61cc479712813461ce153894a96a6c00b21ed0cfc2798d1f9a9e9c94a",
+    "pyth_price_object_id": null
+  },
+  {
+    "reserve_index": 44,
+    "reserve_id": "0x668de21e7ba464f5b1f67c9b3569cf5843f2b0f3fdb577c3cb278ab63ae95605",
+    "coin_type": "0x44f838219cf67b058f3b37907b655f226153c18e33dfcd0da559a844fea9b1c1::usdsui::USDSUI",
+    "decimals": 6,
+    "raw_pyth_feed_id": "eaa020c61cc479712813461ce153894a96a6c00b21ed0cfc2798d1f9a9e9c94a",
+    "pyth_price_object_id": null
+  }
+]

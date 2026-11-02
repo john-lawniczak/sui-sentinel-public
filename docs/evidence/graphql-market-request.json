@@ -1,0 +1,3 @@
+{
+  "query": "{ checkpoint { sequenceNumber timestamp } market: object(address: \"0x84030d26d85eaa7035084a057f2f11f701b7e2e4eda87551becbc7c97505ece1\") { version asMoveObject { contents { json } } } cap: object(address: \"0x3d4ef1859c3ee9fc72858f588b56a09da5466e64f8cc4e90a7b3b909fba8a7ae\") { version asMoveObject { contents { json } } } }"
+}

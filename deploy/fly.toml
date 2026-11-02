@@ -1,0 +1,58 @@
+# Example only: select your own app name and provision dependencies before deployment.
+# fly.toml app configuration file generated for sui-sentinel-r1 on 2026-11-02T14:44:55-05:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'replace-with-your-app-name'
+primary_region = 'iad'
+kill_signal = 'SIGTERM'
+kill_timeout = '30s'
+
+[build]
+  dockerfile = 'deploy/Dockerfile'
+
+[deploy]
+  strategy = 'rolling'
+  max_unavailable = 1.0
+
+[env]
+  SENTINEL_AUTO_MIGRATE = 'false'
+  SENTINEL_DEPLOYMENT_MODE = 'production'
+  SENTINEL_WEBHOOK_FORMAT = 'discord'
+  # GraphQL URL, API keys, database credentials and webhook are Fly secrets.
+  SUI_API_KEY_HEADER = 'x-token'
+  SUI_GRPC_URL = 'https://sui-mainnet-grpc.blockvision.org:443'
+  SUI_SNAPSHOT_CHECKPOINT_LAG = '200'
+
+[processes]
+  app = 'monitor --config /etc/sentinel/suilend.toml --policy /etc/sentinel/monitoring.mainnet.toml --out /data --scope suilend-main-r1 --listen 0.0.0.0:9108'
+
+[[mounts]]
+  source = 'sentinel_captures'
+  destination = '/data'
+  initial_size = '30gb'
+  snapshot_retention = 7
+  processes = ['app']
+
+[http_service]
+  internal_port = 9108
+  force_https = true
+  auto_stop_machines = 'off'
+  auto_start_machines = false
+  min_machines_running = 1
+  processes = ['app']
+
+  [[http_service.checks]]
+    interval = '15s'
+    timeout = '3s'
+    grace_period = '30s'
+    method = 'GET'
+    path = '/livez'
+
+[[vm]]
+  memory = '2gb'
+  cpu_kind = 'shared'
+  cpus = 2
+  memory_mb = 2048
+  processes = ['app']

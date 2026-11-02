@@ -1,0 +1,99 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  rust:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: sentinel_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      SENTINEL_TEST_DATABASE_URL: postgres://postgres:postgres@localhost:5432/sentinel_test
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check maintainability and generated dashboard
+        run: |
+          python3 .github/scripts/check_file_sizes.py
+          python3 deploy/grafana/generate.py --check
+          python3 -m unittest discover -s tests -p 'test_*.py'
+          python3 deploy/ops/check_fly.py
+          SENTINEL_DATA_PATH=/tmp/generations docker compose -f deploy/compose.yaml config --quiet
+      - name: Install stable Rust
+        run: |
+          rustup toolchain install stable --profile minimal --component rustfmt --component clippy
+          rustup default stable
+      - name: Check formatting
+        run: cargo fmt --all -- --check
+      - name: Clippy
+        run: cargo clippy --locked --all-targets -- -D warnings
+      - name: Test
+        run: cargo test --locked --all-targets
+      - name: Verify least-privilege query and incident generation grants
+        env:
+          SENTINEL_MIGRATION_PASSWORD: ci-only
+          SENTINEL_MONITOR_PASSWORD: ci-only
+          SENTINEL_DELIVERY_PASSWORD: ci-only
+          SENTINEL_READER_PASSWORD: ci-only
+          SENTINEL_OPERATOR_PASSWORD: ci-only
+        run: |
+          psql "$SENTINEL_TEST_DATABASE_URL" -f deploy/ops/init-roles.sql
+          psql "$SENTINEL_TEST_DATABASE_URL" -f deploy/ops/grants.sql
+          psql "$SENTINEL_TEST_DATABASE_URL" -f deploy/ops/check-query-grants.sql
+          node --check src/mcp/operator.js
+
+  dashboard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      SENTINEL_SOURCE_REVISION: ${{ github.sha }}
+      SENTINEL_DATA_PATH: ${{ github.workspace }}/snapshots/dashboard-ci
+      SENTINEL_REPORT_PATH: ${{ github.workspace }}/snapshots/dashboard-ci/demo/analysis/report.json
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build dashboard stack and replay real fixture
+        run: |
+          docker compose -f deploy/compose.yaml build
+          mkdir -p snapshots/dashboard-ci/demo
+          docker run --rm --user "$(id -u):$(id -g)" \
+            -v "$PWD/tests/data/elixir:/input:ro" \
+            -v "$PWD/snapshots/dashboard-ci/demo:/output" \
+            sui-sentinel-exporter report --input /input --out /output/analysis
+          echo demo > snapshots/dashboard-ci/current
+          docker compose -f deploy/compose.yaml up -d
+      - name: Validate metrics and dashboard queries
+        run: |
+          curl --fail --silent --retry 20 --retry-connrefused --retry-delay 2 \
+            http://localhost:9108/metrics > /tmp/sentinel-metrics.txt
+          docker compose -f deploy/compose.yaml exec -T prometheus \
+            promtool check metrics < /tmp/sentinel-metrics.txt
+          docker compose -f deploy/compose.yaml exec -T prometheus \
+            promtool check config /etc/prometheus/prometheus.yml
+          for attempt in {1..30}; do
+            if python3 deploy/grafana/check.py --report "$SENTINEL_REPORT_PATH"; then
+              exit 0
+            fi
+            sleep 2
+          done
+          exit 1
+      - name: Logs and cleanup
+        if: always()
+        run: |
+          docker compose -f deploy/compose.yaml logs --tail=50
+          docker compose -f deploy/compose.yaml down --volumes

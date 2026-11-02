@@ -1,0 +1,23 @@
+{
+  "research_date": "2026-10-19",
+  "scope": "research only; not an atomic State snapshot",
+  "move_repository": "https://github.com/suilend/suilend",
+  "move_commit": "d5ba83a617bb0778b48b0c3b1e77a87be81258ca",
+  "move_branches": [
+    "devel",
+    "mainnet"
+  ],
+  "sdk_version": "13.6.0",
+  "sdk_tarball": "https://registry.npmjs.org/@suilend/sdk/-/sdk-13.6.0.tgz",
+  "sdk_integrity": "sha512-vaOhlzD+CZQ515Y9O7Ndf5B23Lvce//zo8ejGAdwlMPzGoTITeYY5GGJooR+eQxFt59NqFqPWLbVtAgFUhSOwg==",
+  "graphql_endpoint": "https://graphql.mainnet.sui.io/graphql",
+  "grpc_endpoint": "fullnode.mainnet.sui.io:443",
+  "sha256": {
+    "graphql-market-request.json": "69c02a5c7d6837fbc6bf17ac9e5bfbe311a48842002b2e670aa7e2b00257111d",
+    "grpc-batch-request.json": "4c9222512c5ad85ae3a2745983757b7a36120d9e6e7d314f14c501d229e61287",
+    "grpc-discovery-2026-10-19.json": "044b783dcb89e2cfddcdf052679a46f6683ba5dc7c96301f160376b5adeb0e94",
+    "grpc-obligations-2026-10-19.json": "06743d353277f24b969bf06370658296cf464769ab5de4b87f3c47fb928383d1",
+    "mainnet-market-2026-10-19.json": "a26300eeb15afe93b8a5b43c8e05da04ef4603a9bf6e6f7653c3102d6aaded9b",
+    "reserve-feeds.json": "8af9f1ceea0a8a10af0c5b60a201e9744a893db3abf3b6189c9af3fad8057651"
+  }
+}

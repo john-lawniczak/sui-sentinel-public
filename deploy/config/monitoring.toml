@@ -1,0 +1,11 @@
+# Runtime policy for monitor and serve-dir. Defaults are UNBENCHMARKED;
+# measure provider quotas and capture p95 before unattended production use.
+schema_version = 1
+[capture]
+interval_seconds = 300
+deadline_seconds = 60
+[readiness]
+expected_scope = "explicit_markets"
+# Set the exact authorized market IDs for a shared deployment. Empty means
+# any nonempty explicit-market set; it does not mean all Suilend markets.
+expected_market_ids = []

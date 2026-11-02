@@ -1,0 +1,3967 @@
+{
+  "uid": "sui-sentinel-snapshot",
+  "title": "Suilend · Snapshot diagnostics",
+  "description": "Immutable census, cached economic exposure and illustrative stress scenarios.",
+  "tags": [
+    "suilend",
+    "snapshot",
+    "cached-diagnostics"
+  ],
+  "schemaVersion": 39,
+  "version": 3,
+  "links": [
+    {
+      "title": "Operator runbook",
+      "type": "link",
+      "url": "https://github.com/john-lawniczak/sui-sentinel-public/blob/main/docs/operations-release.md",
+      "targetBlank": true
+    }
+  ],
+  "editable": false,
+  "timezone": "utc",
+  "refresh": "30s",
+  "time": {
+    "from": "now-15m",
+    "to": "now"
+  },
+  "timepicker": {
+    "hidden": true
+  },
+  "panels": [
+    {
+      "title": "Suilend · saved checkpoint",
+      "type": "text",
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 4
+      },
+      "description": "",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "mode": "markdown",
+        "content": "### Cached valuations · economic score unavailable\nA saved snapshot, **not live monitoring**. Cached prices may come from different times. Colors describe cached health-factor ranges; they do not prove liquidation eligibility.\n\nStress scenarios are **illustrative sensitivities** with assumed recovery discounts. Fresh valuations and recovery validation are required before an economic score can be published. Market discovery includes experimental and third-party instances."
+      },
+      "id": 1
+    },
+    {
+      "type": "row",
+      "title": "Operations · diagnose the monitor first",
+      "collapsed": false,
+      "panels": [],
+      "gridPos": {
+        "x": 0,
+        "y": 4,
+        "w": 24,
+        "h": 1
+      },
+      "id": 2
+    },
+    {
+      "title": "Readiness · all checks",
+      "type": "stat",
+      "gridPos": {
+        "x": 0,
+        "y": 5,
+        "w": 6,
+        "h": 5
+      },
+      "description": "0 means freshness, coverage, scope or monitor health failed; inspect readiness reason.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown / unavailable",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            },
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "Not ready",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "Healthy",
+                  "color": "blue"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto",
+        "displayMode": "basic",
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(sui_sentinel_exporter_ready{job=\"sui-sentinel\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "id": 3
+    },
+    {
+      "title": "Monitor workers + database",
+      "type": "stat",
+      "gridPos": {
+        "x": 6,
+        "y": 5,
+        "w": 6,
+        "h": 5
+      },
+      "description": "No data means no monitor heartbeat was received; do not interpret missing data as healthy.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown / unavailable",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            },
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "Not ready",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "Healthy",
+                  "color": "blue"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto",
+        "displayMode": "basic",
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(sui_sentinel_monitor_healthy{job=\"sui-sentinel\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "id": 4
+    },
+    {
+      "title": "Observation freshness · deployed policy",
+      "type": "stat",
+      "gridPos": {
+        "x": 12,
+        "y": 5,
+        "w": 6,
+        "h": 5
+      },
+      "description": "Thresholds come from the running policy, independently of cached financial valuation.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown / unavailable",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            },
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "Fresh observation",
+                  "color": "blue"
+                },
+                "1": {
+                  "text": "Stale · warning",
+                  "color": "orange"
+                },
+                "2": {
+                  "text": "Stale · critical",
+                  "color": "red"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto",
+        "displayMode": "basic",
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(sui_sentinel_observation_freshness{job=\"sui-sentinel\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "id": 5
+    },
+    {
+      "title": "Pending notifications",
+      "type": "stat",
+      "gridPos": {
+        "x": 18,
+        "y": 5,
+        "w": 6,
+        "h": 5
+      },
+      "description": "Durable deliveries awaiting success. Inspect with admin --scope SCOPE inspect.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown / unavailable",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto",
+        "displayMode": "basic",
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(sui_sentinel_notification_pending{job=\"sui-sentinel\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "id": 6
+    },
+    {
+      "title": "Scheduler heartbeat age",
+      "type": "stat",
+      "gridPos": {
+        "x": 0,
+        "y": 10,
+        "w": 6,
+        "h": 5
+      },
+      "description": "A missing/stale heartbeat means unattended capture supervision is not demonstrated.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown / unavailable",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto",
+        "displayMode": "basic",
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "time() - (sui_sentinel_scheduler_heartbeat_seconds{job=\"sui-sentinel\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "id": 7
+    },
+    {
+      "title": "Free capture storage",
+      "type": "stat",
+      "gridPos": {
+        "x": 6,
+        "y": 10,
+        "w": 6,
+        "h": 5
+      },
+      "description": "Captures stop below the policy disk floor. Pinned incident evidence is never auto-deleted.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown / unavailable",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto",
+        "displayMode": "basic",
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(sui_sentinel_disk_available_bytes{job=\"sui-sentinel\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "id": 8
+    },
+    {
+      "title": "Last capture duration",
+      "type": "stat",
+      "gridPos": {
+        "x": 12,
+        "y": 10,
+        "w": 6,
+        "h": 5
+      },
+      "description": "Full capture and validation elapsed time, not HTTP serving latency.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown / unavailable",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto",
+        "displayMode": "basic",
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(sui_sentinel_capture_duration_seconds{job=\"sui-sentinel\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "id": 9
+    },
+    {
+      "title": "Consecutive capture failures",
+      "type": "stat",
+      "gridPos": {
+        "x": 18,
+        "y": 10,
+        "w": 6,
+        "h": 5
+      },
+      "description": "Inspect run journals and provider/disk status; last good reports remain readable.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown / unavailable",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto",
+        "displayMode": "basic",
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(sui_sentinel_capture_failure_streak{job=\"sui-sentinel\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "id": 10
+    },
+    {
+      "title": "Observer heartbeat age",
+      "type": "stat",
+      "gridPos": {
+        "x": 0,
+        "y": 15,
+        "w": 6,
+        "h": 5
+      },
+      "description": "Observation and incident processing are independent of capture scheduling.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown / unavailable",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto",
+        "displayMode": "basic",
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "time() - (sui_sentinel_observer_heartbeat_seconds{job=\"sui-sentinel\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "id": 11
+    },
+    {
+      "title": "Delivery heartbeat age",
+      "type": "stat",
+      "gridPos": {
+        "x": 6,
+        "y": 15,
+        "w": 6,
+        "h": 5
+      },
+      "description": "Inspect database/receiver connectivity when delivery stops.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown / unavailable",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto",
+        "displayMode": "basic",
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "time() - (sui_sentinel_delivery_heartbeat_seconds{job=\"sui-sentinel\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "id": 12
+    },
+    {
+      "title": "Dead letters · operator action",
+      "type": "stat",
+      "gridPos": {
+        "x": 12,
+        "y": 15,
+        "w": 6,
+        "h": 5
+      },
+      "description": "Inspect then use audited admin retry with a reason; receiver must deduplicate Idempotency-Key.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown / unavailable",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto",
+        "displayMode": "basic",
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(sui_sentinel_notification_dead_letters{job=\"sui-sentinel\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "id": 13
+    },
+    {
+      "title": "Oldest queued delivery",
+      "type": "stat",
+      "gridPos": {
+        "x": 18,
+        "y": 15,
+        "w": 6,
+        "h": 5
+      },
+      "description": "No sample when queue is empty or unavailable; compare pending count and monitor health.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown / unavailable",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto",
+        "displayMode": "basic",
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(sui_sentinel_notification_oldest_age_seconds{job=\"sui-sentinel\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "id": 14
+    },
+    {
+      "title": "Last reload attempt age",
+      "type": "stat",
+      "gridPos": {
+        "x": 0,
+        "y": 20,
+        "w": 6,
+        "h": 5
+      },
+      "description": "A stale poller can retain an old report; observation freshness still expires.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown / unavailable",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto",
+        "displayMode": "basic",
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "time() - (sui_sentinel_exporter_last_reload_attempt_seconds{job=\"sui-sentinel\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "id": 15
+    },
+    {
+      "title": "Last reload failed",
+      "type": "stat",
+      "gridPos": {
+        "x": 6,
+        "y": 20,
+        "w": 6,
+        "h": 5
+      },
+      "description": "Last good generation remains available. Check /status for the reload error.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown / unavailable",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto",
+        "displayMode": "basic",
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(sui_sentinel_exporter_last_reload_failed{job=\"sui-sentinel\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "id": 16
+    },
+    {
+      "title": "Unapplied run outcomes",
+      "type": "stat",
+      "gridPos": {
+        "x": 12,
+        "y": 20,
+        "w": 6,
+        "h": 5
+      },
+      "description": "Durable lifecycle records waiting for incident processing.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown / unavailable",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto",
+        "displayMode": "basic",
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(sui_sentinel_spool_backlog{job=\"sui-sentinel\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "id": 17
+    },
+    {
+      "title": "GraphQL retries · latest capture",
+      "type": "stat",
+      "gridPos": {
+        "x": 18,
+        "y": 20,
+        "w": 6,
+        "h": 5
+      },
+      "description": "Measured attempts, not inferred page counts. Partial runs may have a last-observed counter.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown / unavailable",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto",
+        "displayMode": "basic",
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(sui_sentinel_graphql_retries{job=\"sui-sentinel\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "id": 18
+    },
+    {
+      "type": "row",
+      "title": "Snapshot provenance · whole report",
+      "collapsed": false,
+      "panels": [],
+      "gridPos": {
+        "x": 0,
+        "y": 26,
+        "w": 24,
+        "h": 1
+      },
+      "id": 19
+    },
+    {
+      "title": "OBSERVATION AGE · not valuation age",
+      "type": "stat",
+      "gridPos": {
+        "x": 0,
+        "y": 27,
+        "w": 8,
+        "h": 5
+      },
+      "description": "Compare the policy-driven freshness status above. Cached financial valuation age is unknown.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto",
+        "displayMode": "basic",
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(sui_sentinel_observation_age_seconds{job=\"sui-sentinel\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "id": 20
+    },
+    {
+      "title": "Checkpoint time · UTC",
+      "type": "stat",
+      "gridPos": {
+        "x": 8,
+        "y": 27,
+        "w": 8,
+        "h": 5
+      },
+      "description": "",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "dateTimeAsIso",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto",
+        "displayMode": "basic",
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(sui_sentinel_snapshot_timestamp_seconds{job=\"sui-sentinel\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1)) * 1000",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "id": 21
+    },
+    {
+      "title": "Exporter",
+      "type": "stat",
+      "gridPos": {
+        "x": 16,
+        "y": 27,
+        "w": 4,
+        "h": 5
+      },
+      "description": "",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            },
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "Unavailable",
+                  "color": "red"
+                },
+                "1": {
+                  "text": "Serving",
+                  "color": "blue"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto",
+        "displayMode": "basic",
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "up{job=\"sui-sentinel\"}",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "id": 22
+    },
+    {
+      "title": "Markets",
+      "type": "stat",
+      "gridPos": {
+        "x": 20,
+        "y": 27,
+        "w": 4,
+        "h": 5
+      },
+      "description": "",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto",
+        "displayMode": "basic",
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(sui_sentinel_snapshot_markets{job=\"sui-sentinel\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "id": 23
+    },
+    {
+      "type": "row",
+      "title": "Coverage · completeness is separate from valuation confidence",
+      "collapsed": false,
+      "panels": [],
+      "gridPos": {
+        "x": 0,
+        "y": 32,
+        "w": 24,
+        "h": 1
+      },
+      "id": 24
+    },
+    {
+      "title": "Census · whole report",
+      "type": "stat",
+      "gridPos": {
+        "x": 0,
+        "y": 33,
+        "w": 8,
+        "h": 4
+      },
+      "description": "",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            },
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "Partial / sampled",
+                  "color": "orange"
+                },
+                "1": {
+                  "text": "Complete",
+                  "color": "blue"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto",
+        "displayMode": "basic",
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(sui_sentinel_snapshot_complete{job=\"sui-sentinel\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "id": 25
+    },
+    {
+      "title": "Captured positions · selection",
+      "type": "stat",
+      "gridPos": {
+        "x": 8,
+        "y": 33,
+        "w": 8,
+        "h": 4
+      },
+      "description": "",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto",
+        "displayMode": "basic",
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum((sui_sentinel_positions{job=\"sui-sentinel\",market=~\"$market\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1)))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "id": 26
+    },
+    {
+      "title": "Expected positions · selection",
+      "type": "stat",
+      "gridPos": {
+        "x": 16,
+        "y": 33,
+        "w": 8,
+        "h": 4
+      },
+      "description": "",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto",
+        "displayMode": "basic",
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum((sui_sentinel_expected_positions{job=\"sui-sentinel\",market=~\"$market\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1)))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "id": 27
+    },
+    {
+      "title": "Ownership resolution",
+      "type": "table",
+      "gridPos": {
+        "x": 0,
+        "y": 37,
+        "w": 8,
+        "h": 7
+      },
+      "description": "",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Status"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "value",
+                    "options": {
+                      "direct_address": {
+                        "text": "Direct address",
+                        "color": "blue"
+                      },
+                      "other": {
+                        "text": "Other owner type",
+                        "color": "#8e8e8e"
+                      },
+                      "unresolved": {
+                        "text": "Unresolved",
+                        "color": "#8e8e8e"
+                      },
+                      "ambiguous": {
+                        "text": "Ambiguous",
+                        "color": "#8e8e8e"
+                      },
+                      "provisional": {
+                        "text": "Provisional (incomplete capability scan)",
+                        "color": "orange"
+                      },
+                      "available": {
+                        "text": "Available",
+                        "color": "blue"
+                      },
+                      "unavailable": {
+                        "text": "Unavailable",
+                        "color": "#8e8e8e"
+                      },
+                      "evaluated": {
+                        "text": "Evaluated",
+                        "color": "blue"
+                      },
+                      "excluded": {
+                        "text": "Excluded / unknown",
+                        "color": "#8e8e8e"
+                      },
+                      "unverified_cached_inputs": {
+                        "text": "Unverified cached valuations",
+                        "color": "#8e8e8e"
+                      },
+                      "incomplete_coverage": {
+                        "text": "Incomplete inputs",
+                        "color": "orange"
+                      },
+                      "not_computed": {
+                        "text": "Not computed",
+                        "color": "#8e8e8e"
+                      },
+                      "no_debt": {
+                        "text": "No debt to score",
+                        "color": "#8e8e8e"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (status) ((sui_sentinel_ownership_positions{job=\"sui-sentinel\",market=~\"$market\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1)))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "table",
+          "legendFormat": ""
+        }
+      ],
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "status",
+                "Value"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "indexByName": {
+              "status": 0,
+              "Value": 1
+            },
+            "renameByName": {
+              "status": "Status",
+              "Value": "Positions"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "field": "Positions",
+                "desc": true
+              }
+            ]
+          }
+        }
+      ],
+      "id": 28
+    },
+    {
+      "title": "Diagnostic coverage",
+      "type": "table",
+      "gridPos": {
+        "x": 8,
+        "y": 37,
+        "w": 8,
+        "h": 7
+      },
+      "description": "",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Status"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "value",
+                    "options": {
+                      "direct_address": {
+                        "text": "Direct address",
+                        "color": "blue"
+                      },
+                      "other": {
+                        "text": "Other owner type",
+                        "color": "#8e8e8e"
+                      },
+                      "unresolved": {
+                        "text": "Unresolved",
+                        "color": "#8e8e8e"
+                      },
+                      "ambiguous": {
+                        "text": "Ambiguous",
+                        "color": "#8e8e8e"
+                      },
+                      "provisional": {
+                        "text": "Provisional (incomplete capability scan)",
+                        "color": "orange"
+                      },
+                      "available": {
+                        "text": "Available",
+                        "color": "blue"
+                      },
+                      "unavailable": {
+                        "text": "Unavailable",
+                        "color": "#8e8e8e"
+                      },
+                      "evaluated": {
+                        "text": "Evaluated",
+                        "color": "blue"
+                      },
+                      "excluded": {
+                        "text": "Excluded / unknown",
+                        "color": "#8e8e8e"
+                      },
+                      "unverified_cached_inputs": {
+                        "text": "Unverified cached valuations",
+                        "color": "#8e8e8e"
+                      },
+                      "incomplete_coverage": {
+                        "text": "Incomplete inputs",
+                        "color": "orange"
+                      },
+                      "not_computed": {
+                        "text": "Not computed",
+                        "color": "#8e8e8e"
+                      },
+                      "no_debt": {
+                        "text": "No debt to score",
+                        "color": "#8e8e8e"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (status) ((sui_sentinel_diagnostic_positions{job=\"sui-sentinel\",market=~\"$market\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1)))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "table",
+          "legendFormat": ""
+        }
+      ],
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "status",
+                "Value"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "indexByName": {
+              "status": 0,
+              "Value": 1
+            },
+            "renameByName": {
+              "status": "Status",
+              "Value": "Positions"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "field": "Positions",
+                "desc": true
+              }
+            ]
+          }
+        }
+      ],
+      "id": 29
+    },
+    {
+      "title": "Stress input coverage",
+      "type": "table",
+      "gridPos": {
+        "x": 16,
+        "y": 37,
+        "w": 8,
+        "h": 7
+      },
+      "description": "",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Status"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "value",
+                    "options": {
+                      "direct_address": {
+                        "text": "Direct address",
+                        "color": "blue"
+                      },
+                      "other": {
+                        "text": "Other owner type",
+                        "color": "#8e8e8e"
+                      },
+                      "unresolved": {
+                        "text": "Unresolved",
+                        "color": "#8e8e8e"
+                      },
+                      "ambiguous": {
+                        "text": "Ambiguous",
+                        "color": "#8e8e8e"
+                      },
+                      "provisional": {
+                        "text": "Provisional (incomplete capability scan)",
+                        "color": "orange"
+                      },
+                      "available": {
+                        "text": "Available",
+                        "color": "blue"
+                      },
+                      "unavailable": {
+                        "text": "Unavailable",
+                        "color": "#8e8e8e"
+                      },
+                      "evaluated": {
+                        "text": "Evaluated",
+                        "color": "blue"
+                      },
+                      "excluded": {
+                        "text": "Excluded / unknown",
+                        "color": "#8e8e8e"
+                      },
+                      "unverified_cached_inputs": {
+                        "text": "Unverified cached valuations",
+                        "color": "#8e8e8e"
+                      },
+                      "incomplete_coverage": {
+                        "text": "Incomplete inputs",
+                        "color": "orange"
+                      },
+                      "not_computed": {
+                        "text": "Not computed",
+                        "color": "#8e8e8e"
+                      },
+                      "no_debt": {
+                        "text": "No debt to score",
+                        "color": "#8e8e8e"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (status) ((sui_sentinel_stress_positions{job=\"sui-sentinel\",market=~\"$market\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1)))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "table",
+          "legendFormat": ""
+        }
+      ],
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "status",
+                "Value"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "indexByName": {
+              "status": 0,
+              "Value": 1
+            },
+            "renameByName": {
+              "status": "Status",
+              "Value": "Positions"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "field": "Positions",
+                "desc": true
+              }
+            ]
+          }
+        }
+      ],
+      "id": 30
+    },
+    {
+      "type": "row",
+      "title": "Economic exposure · cached obligation values, not protocol TVL",
+      "collapsed": false,
+      "panels": [],
+      "gridPos": {
+        "x": 0,
+        "y": 44,
+        "w": 24,
+        "h": 1
+      },
+      "id": 31
+    },
+    {
+      "title": "Economic score · worst selected market",
+      "type": "stat",
+      "gridPos": {
+        "x": 0,
+        "y": 45,
+        "w": 6,
+        "h": 6
+      },
+      "description": "0–100, higher is worse. Unavailable unless every selected market is scored. Worst market is not a pooled protocol score.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "thresholds"
+          },
+          "noValue": "Unknown",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            },
+            {
+              "type": "value",
+              "options": {
+                "-1": {
+                  "text": "Unavailable",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "green"
+              },
+              {
+                "value": 25,
+                "color": "yellow"
+              },
+              {
+                "value": 50,
+                "color": "orange"
+              },
+              {
+                "value": 75,
+                "color": "red"
+              }
+            ]
+          },
+          "min": 0,
+          "max": 100
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto",
+        "displayMode": "basic",
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(max((sui_sentinel_economic_score{job=\"sui-sentinel\",market=~\"$market\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1))) and on() (min((sui_sentinel_economic_score_available{job=\"sui-sentinel\",market=~\"$market\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1))) == 1)) or (min((sui_sentinel_economic_score_available{job=\"sui-sentinel\",market=~\"$market\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1))) * 0 - 1)",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "id": 32
+    },
+    {
+      "title": "Cached collateral",
+      "type": "stat",
+      "gridPos": {
+        "x": 6,
+        "y": 45,
+        "w": 6,
+        "h": 6
+      },
+      "description": "",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto",
+        "displayMode": "basic",
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum((sui_sentinel_cached_collateral_usd{job=\"sui-sentinel\",market=~\"$market\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1)))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "id": 33
+    },
+    {
+      "title": "Cached debt",
+      "type": "stat",
+      "gridPos": {
+        "x": 12,
+        "y": 45,
+        "w": 6,
+        "h": 6
+      },
+      "description": "",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto",
+        "displayMode": "basic",
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum((sui_sentinel_cached_debt_usd{job=\"sui-sentinel\",market=~\"$market\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1)))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "id": 34
+    },
+    {
+      "title": "Debt with cached HF < 1",
+      "type": "stat",
+      "gridPos": {
+        "x": 18,
+        "y": 45,
+        "w": 6,
+        "h": 6
+      },
+      "description": "Not current liquidatable debt or expected loss.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD",
+          "color": {
+            "mode": "thresholds"
+          },
+          "noValue": "Unknown",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "orange"
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto",
+        "displayMode": "basic",
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum((sui_sentinel_cached_health_debt_usd{job=\"sui-sentinel\",market=~\"$market\",bucket=\"below_1\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1)))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "id": 35
+    },
+    {
+      "type": "row",
+      "title": "Cached health factors · consistent bucket colors",
+      "collapsed": false,
+      "panels": [],
+      "gridPos": {
+        "x": 0,
+        "y": 51,
+        "w": 24,
+        "h": 1
+      },
+      "id": 36
+    },
+    {
+      "title": "Positions by cached HF",
+      "type": "bargauge",
+      "gridPos": {
+        "x": 0,
+        "y": 52,
+        "w": 12,
+        "h": 9
+      },
+      "description": "Colors describe cached HF ranges, not verified liquidation eligibility. No borrow records is distinct from unknown cached debt. Unsupported diagnostics are excluded.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "below_1"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "HF < 1"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "red"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "1_to_1_05"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "1 ≤ HF < 1.05"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "orange"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "1_05_to_1_1"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "1.05 ≤ HF < 1.10"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "yellow"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "1_1_to_1_25"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "1.10 ≤ HF < 1.25"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "green"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "at_least_1_25"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "HF ≥ 1.25"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "blue"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "no_debt"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "No borrow records"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "purple"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "unknown_zero_cached_debt"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Unknown cached debt"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#8e8e8e"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto",
+        "displayMode": "basic",
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (bucket) ((sui_sentinel_cached_health_positions{job=\"sui-sentinel\",market=~\"$market\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1)))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "time_series",
+          "legendFormat": "{{bucket}}"
+        }
+      ],
+      "id": 37
+    },
+    {
+      "title": "Debt by cached HF",
+      "type": "bargauge",
+      "gridPos": {
+        "x": 12,
+        "y": 52,
+        "w": 12,
+        "h": 9
+      },
+      "description": "Colors describe cached HF ranges, not verified liquidation eligibility. No borrow records is distinct from unknown cached debt. Unsupported diagnostics are excluded.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "below_1"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "HF < 1"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "red"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "1_to_1_05"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "1 ≤ HF < 1.05"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "orange"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "1_05_to_1_1"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "1.05 ≤ HF < 1.10"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "yellow"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "1_1_to_1_25"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "1.10 ≤ HF < 1.25"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "green"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "at_least_1_25"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "HF ≥ 1.25"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "blue"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "no_debt"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "No borrow records"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "purple"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "unknown_zero_cached_debt"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Unknown cached debt"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#8e8e8e"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto",
+        "displayMode": "basic",
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (bucket) ((sui_sentinel_cached_health_debt_usd{job=\"sui-sentinel\",market=~\"$market\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1)))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "time_series",
+          "legendFormat": "{{bucket}}"
+        }
+      ],
+      "id": 38
+    },
+    {
+      "type": "row",
+      "title": "Asset exposure · names retain package identity",
+      "collapsed": false,
+      "panels": [],
+      "gridPos": {
+        "x": 0,
+        "y": 61,
+        "w": 24,
+        "h": 1
+      },
+      "id": 39
+    },
+    {
+      "title": "Collateral by asset",
+      "type": "table",
+      "gridPos": {
+        "x": 0,
+        "y": 62,
+        "w": 12,
+        "h": 10
+      },
+      "description": "Coin-type names and recorded metadata aliases are display hints, not endorsements. Full type preserves identity.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (asset, asset_name) ((sui_sentinel_cached_collateral_usd{job=\"sui-sentinel\",market=~\"$market\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1)))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "table",
+          "legendFormat": ""
+        }
+      ],
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "asset_name",
+                "asset",
+                "Value"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "indexByName": {
+              "asset_name": 0,
+              "Value": 1,
+              "asset": 2
+            },
+            "renameByName": {
+              "asset_name": "Asset",
+              "asset": "Full coin type",
+              "Value": "Cached USD"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "field": "Cached USD",
+                "desc": true
+              }
+            ]
+          }
+        }
+      ],
+      "id": 40
+    },
+    {
+      "title": "Debt by asset",
+      "type": "table",
+      "gridPos": {
+        "x": 12,
+        "y": 62,
+        "w": 12,
+        "h": 10
+      },
+      "description": "Coin-type names and recorded metadata aliases are display hints, not endorsements. Full type preserves identity.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (asset, asset_name) ((sui_sentinel_cached_debt_usd{job=\"sui-sentinel\",market=~\"$market\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1)))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "table",
+          "legendFormat": ""
+        }
+      ],
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "asset_name",
+                "asset",
+                "Value"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "indexByName": {
+              "asset_name": 0,
+              "Value": 1,
+              "asset": 2
+            },
+            "renameByName": {
+              "asset_name": "Asset",
+              "asset": "Full coin type",
+              "Value": "Cached USD"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "field": "Cached USD",
+                "desc": true
+              }
+            ]
+          }
+        }
+      ],
+      "id": 41
+    },
+    {
+      "type": "row",
+      "title": "Illustrative stress scenarios · evaluated cached positions only",
+      "collapsed": false,
+      "panels": [],
+      "gridPos": {
+        "x": 0,
+        "y": 72,
+        "w": 24,
+        "h": 1
+      },
+      "id": 42
+    },
+    {
+      "title": "Hypothetical shortfall · not expected loss",
+      "type": "table",
+      "gridPos": {
+        "x": 0,
+        "y": 73,
+        "w": 12,
+        "h": 8
+      },
+      "description": "",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (scenario) ((sui_sentinel_cached_stress_shortfall_usd{job=\"sui-sentinel\",market=~\"$market\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1)))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "table",
+          "legendFormat": ""
+        }
+      ],
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "scenario",
+                "Value"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "indexByName": {
+              "scenario": 0,
+              "Value": 1
+            },
+            "renameByName": {
+              "scenario": "Scenario",
+              "Value": "Shortfall USD"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "field": "Shortfall USD",
+                "desc": true
+              }
+            ]
+          }
+        }
+      ],
+      "id": 43
+    },
+    {
+      "title": "Hypothetical shortfall / scenario debt",
+      "type": "table",
+      "gridPos": {
+        "x": 12,
+        "y": 73,
+        "w": 12,
+        "h": 8
+      },
+      "description": "",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (scenario) ((sui_sentinel_cached_stress_shortfall_usd{job=\"sui-sentinel\",market=~\"$market\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1))) / (sum by (scenario) ((sui_sentinel_cached_stress_debt_usd{job=\"sui-sentinel\",market=~\"$market\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1))) > 0)",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "table",
+          "legendFormat": ""
+        }
+      ],
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "scenario",
+                "Value"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "indexByName": {
+              "scenario": 0,
+              "Value": 1
+            },
+            "renameByName": {
+              "scenario": "Scenario",
+              "Value": "Shortfall ratio"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "field": "Shortfall ratio",
+                "desc": true
+              }
+            ]
+          }
+        }
+      ],
+      "id": 44
+    },
+    {
+      "title": "Economic score availability · selected markets",
+      "type": "table",
+      "gridPos": {
+        "x": 0,
+        "y": 81,
+        "w": 24,
+        "h": 8
+      },
+      "description": "",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Status"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "value",
+                    "options": {
+                      "direct_address": {
+                        "text": "Direct address",
+                        "color": "blue"
+                      },
+                      "other": {
+                        "text": "Other owner type",
+                        "color": "#8e8e8e"
+                      },
+                      "unresolved": {
+                        "text": "Unresolved",
+                        "color": "#8e8e8e"
+                      },
+                      "ambiguous": {
+                        "text": "Ambiguous",
+                        "color": "#8e8e8e"
+                      },
+                      "provisional": {
+                        "text": "Provisional (incomplete capability scan)",
+                        "color": "orange"
+                      },
+                      "available": {
+                        "text": "Available",
+                        "color": "blue"
+                      },
+                      "unavailable": {
+                        "text": "Unavailable",
+                        "color": "#8e8e8e"
+                      },
+                      "evaluated": {
+                        "text": "Evaluated",
+                        "color": "blue"
+                      },
+                      "excluded": {
+                        "text": "Excluded / unknown",
+                        "color": "#8e8e8e"
+                      },
+                      "unverified_cached_inputs": {
+                        "text": "Unverified cached valuations",
+                        "color": "#8e8e8e"
+                      },
+                      "incomplete_coverage": {
+                        "text": "Incomplete inputs",
+                        "color": "orange"
+                      },
+                      "not_computed": {
+                        "text": "Not computed",
+                        "color": "#8e8e8e"
+                      },
+                      "no_debt": {
+                        "text": "No debt to score",
+                        "color": "#8e8e8e"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (status) ((sui_sentinel_stress_status{job=\"sui-sentinel\",market=~\"$market\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1)))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "table",
+          "legendFormat": ""
+        }
+      ],
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "status",
+                "Value"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "indexByName": {
+              "status": 0,
+              "Value": 1
+            },
+            "renameByName": {
+              "status": "Status",
+              "Value": "Markets"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "field": "Markets",
+                "desc": true
+              }
+            ]
+          }
+        }
+      ],
+      "id": 45
+    },
+    {
+      "type": "row",
+      "title": "Market detail and capture scope",
+      "collapsed": false,
+      "panels": [],
+      "gridPos": {
+        "x": 0,
+        "y": 89,
+        "w": 24,
+        "h": 1
+      },
+      "id": 46
+    },
+    {
+      "title": "Captured positions by market",
+      "type": "table",
+      "gridPos": {
+        "x": 0,
+        "y": 90,
+        "w": 12,
+        "h": 10
+      },
+      "description": "",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(sui_sentinel_positions{job=\"sui-sentinel\",market=~\"$market\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "table",
+          "legendFormat": ""
+        }
+      ],
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "market",
+                "Value"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "indexByName": {
+              "market": 0,
+              "Value": 1
+            },
+            "renameByName": {
+              "market": "Market",
+              "Value": "Positions"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "field": "Positions",
+                "desc": true
+              }
+            ]
+          }
+        }
+      ],
+      "id": 47
+    },
+    {
+      "title": "Top 20 direct wallets · cached debt per market",
+      "type": "table",
+      "gridPos": {
+        "x": 12,
+        "y": 90,
+        "w": 12,
+        "h": 10
+      },
+      "description": "",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(sui_sentinel_cached_top20_wallet_debt_usd{job=\"sui-sentinel\",market=~\"$market\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "table",
+          "legendFormat": ""
+        }
+      ],
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "market",
+                "Value"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "indexByName": {
+              "market": 0,
+              "Value": 1
+            },
+            "renameByName": {
+              "market": "Market",
+              "Value": "Cached USD"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "field": "Cached USD",
+                "desc": true
+              }
+            ]
+          }
+        }
+      ],
+      "id": 48
+    },
+    {
+      "title": "Source checkpoint",
+      "type": "stat",
+      "gridPos": {
+        "x": 0,
+        "y": 100,
+        "w": 6,
+        "h": 4
+      },
+      "description": "",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "orientation": "horizontal",
+        "colorMode": "value",
+        "graphMode": "none",
+        "textMode": "auto",
+        "displayMode": "basic",
+        "showUnfilled": true
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(sui_sentinel_snapshot_checkpoint{job=\"sui-sentinel\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "time_series",
+          "legendFormat": ""
+        }
+      ],
+      "id": 49
+    },
+    {
+      "title": "Capture scope · whole report",
+      "type": "table",
+      "gridPos": {
+        "x": 6,
+        "y": 100,
+        "w": 18,
+        "h": 4
+      },
+      "description": "",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "sentinel-prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "noValue": "Unknown",
+          "mappings": [
+            {
+              "type": "special",
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "Unknown",
+                  "color": "#8e8e8e"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(sui_sentinel_snapshot_info{job=\"sui-sentinel\"} and on(job,instance) (up{job=\"sui-sentinel\"} == 1))",
+          "instant": true,
+          "range": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "sentinel-prometheus"
+          },
+          "format": "table",
+          "legendFormat": ""
+        }
+      ],
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "scope",
+                "Value"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "indexByName": {
+              "scope": 0,
+              "Value": 1
+            },
+            "renameByName": {
+              "scope": "Scope",
+              "Value": "Report"
+            }
+          }
+        },
+        {
+          "id": "sortBy",
+          "options": {
+            "sort": [
+              {
+                "field": "Report",
+                "desc": true
+              }
+            ]
+          }
+        }
+      ],
+      "id": 50
+    }
+  ],
+  "templating": {
+    "list": [
+      {
+        "name": "market",
+        "label": "Markets",
+        "type": "query",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "sentinel-prometheus"
+        },
+        "query": "label_values(sui_sentinel_positions{job=\"sui-sentinel\"}, market)",
+        "refresh": 1,
+        "multi": true,
+        "includeAll": true,
+        "allValue": ".*",
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
+        },
+        "sort": 1
+      }
+    ]
+  }
+}

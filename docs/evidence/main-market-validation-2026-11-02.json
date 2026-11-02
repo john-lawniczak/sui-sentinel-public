@@ -1,0 +1,266 @@
+{
+  "date": "2026-11-02",
+  "input_commit": "f57fd3dddc9252c701b808939d973fcdba050a6f",
+  "scope": "Suilend Main Lending Market; complete inventory; SUI/native-USDC focus",
+  "market_id": "0x84030d26d85eaa7035084a057f2f11f701b7e2e4eda87551becbc7c97505ece1",
+  "result": "Full-census and bounded recovery/reconciliation passed; continuous production-readiness gate remains open.",
+  "environment": {
+    "docker": "29.2.0",
+    "vm_cpus": 16,
+    "vm_memory_bytes": 8216473600,
+    "architecture": "aarch64",
+    "application_cpu_limit": 2,
+    "application_memory_limit_bytes": 2147483648,
+    "postgres_cpu_limit": 2,
+    "postgres_memory_limit_bytes": 2147483648,
+    "postgres_version": "17.11",
+    "baseline_image": "sha256:bc3bd5898874063e192a40b02e106a26b7a0289035864581a60cdbdd41985238",
+    "corrected_image": "sha256:673eb08899d5f0cd3b27d1cb4aa7b63d0320decde2f675f1cbe26e9e3d33436e",
+    "caveat": "Shared Docker Desktop host; overlapping census/test compilation; warm caches; short development experiment, not a controlled production benchmark."
+  },
+  "providers": {
+    "graphql": "https://graphql.mainnet.sui.io/graphql",
+    "grpc": "https://fullnode.mainnet.sui.io:443",
+    "grpc_service_info": {
+      "chain": "mainnet",
+      "chainId": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+      "checkpointHeight": "340926081",
+      "epoch": "1299",
+      "lowestAvailableCheckpoint": "335634370",
+      "lowestAvailableCheckpointObjects": "335634370",
+      "server": "sui-node/1.82.5-550e784ea54d",
+      "timestamp": "2026-11-02T17:44:56.197Z"
+    },
+    "api_key_used": false,
+    "production_provider": false
+  },
+  "captures": [
+    {
+      "path": "snapshots/validation-2026-11-02/captures/run-1793641461405188967-1-0",
+      "checkpoint": {
+        "sequenceNumber": 340925930,
+        "timestamp": "2026-11-02T17:44:19.667Z",
+        "digest": "721ZM2KwKZUKVGEXwMtz9ArrRYggWEx3mFcLbB122u11"
+      },
+      "duration_seconds": 496.903070226,
+      "complete": true,
+      "positions": 150164,
+      "capabilities": 145984,
+      "reserves": 45,
+      "raw_bytes": 487563523,
+      "artifact_bytes": 641343535,
+      "minimum_graphql_requests": 5928,
+      "actual_http_attempts": null,
+      "retries": null,
+      "throttling_count": null,
+      "hashes": {
+        "manifest.json": "06887e47f23c7f1984d455d3a191df498429ad4b04ae05340ad271850d57374a",
+        "checksums.json": "52a7b3c86441de15c93bfe4ce6cccd40497e5bb142057ed8fa430ce4ad3e3d55",
+        "analysis/report.json": "06340eb239c763e3e585a1b0371a604d4701426307538389bb0596043c6a3707"
+      },
+      "diagnostics_unavailable": 0,
+      "unresolved_owner_positions": 4191,
+      "ambiguous_owner_positions": 10
+    },
+    {
+      "path": "snapshots/validation-2026-11-02/reconcile-captures/run-1793642058246211965-1-0",
+      "checkpoint": {
+        "sequenceNumber": 340925943,
+        "timestamp": "2026-11-02T17:44:22.836Z",
+        "digest": "BYAKdPv62X2cCt5iAQvcyWPkbspY2QRASjiQyjhangtp"
+      },
+      "duration_seconds": 434.765912657,
+      "complete": true,
+      "positions": 150164,
+      "capabilities": 145984,
+      "reserves": 45,
+      "raw_bytes": 487563523,
+      "artifact_bytes": 641343536,
+      "minimum_graphql_requests": 5928,
+      "actual_http_attempts": null,
+      "retries": null,
+      "throttling_count": null,
+      "hashes": {
+        "manifest.json": "666cf4302e895e9b586db8c5ac4253dab3c1876a45c60704764cf5b8e821984e",
+        "checksums.json": "5cacce93e1e6d9567c268d6f2dbecba53407b0bd8998a99a576de31051c5134f",
+        "analysis/report.json": "5965d35b5212a718a05110202cab6d72ea13e912dfe8f0efcdd363c21323a820"
+      },
+      "diagnostics_unavailable": 0,
+      "unresolved_owner_positions": 4191,
+      "ambiguous_owner_positions": 10
+    }
+  ],
+  "bootstrap": {
+    "corrected_seconds": 119.511101889,
+    "baseline_completed": false,
+    "baseline_interrupted_seconds": 287.658005,
+    "baseline_rollback_committed_streams": 0,
+    "baseline_rollback_committed_objects": 0,
+    "bottleneck": "Join-before-LIMIT repeatedly scanned the full object table without bootstrap statistics; page affected IDs before keyed object lookup."
+  },
+  "checkpoints": {
+    "from_exclusive": 340925930,
+    "through_inclusive": 340925943,
+    "count": 13,
+    "source_timestamp_span_seconds": 3.169,
+    "source_timestamp_rate_per_second": 4.102240454402019,
+    "commit_seconds_median": 6.481526336,
+    "commit_seconds_sample_p95_nearest_rank": 9.599226337,
+    "commit_seconds_max": 9.599226337,
+    "commit_seconds_total": 90.431491334,
+    "commit_only_upper_bound_checkpoints_per_second": 0.14375523181394578,
+    "normalization_seconds_total": 0.462900583,
+    "last_chain_timestamp_lag_seconds": 1291.951579052,
+    "provider_availability_latency_p95_seconds": null,
+    "observed_change_kinds": [
+      "clock mutation"
+    ],
+    "non_clock_mutations_observed": 0,
+    "sample_size_caveat": "13 commits only; sample percentile is not a production latency SLO. Timestamp rate is not measured provider availability."
+  },
+  "recovery": {
+    "network_disconnected_during_inflight_checkpoint": true,
+    "checkpoint_after_disconnect": 340925933,
+    "mixed_evaluations_after_disconnect": 0,
+    "worker_manually_terminated_after_disconnect": true,
+    "database_restarted": true,
+    "checkpoint_after_database_restart": 340925933,
+    "resumed_at": 340925934,
+    "automatic_database_stall_recovery_proven": false
+  },
+  "reconciliation": {
+    "exit_code": 0,
+    "duration_seconds": 29.01418,
+    "checkpoint": 340925943,
+    "evaluated_checkpoint": 340925943,
+    "reconciled_checkpoint": 340925943,
+    "database_bytes": 3561117363,
+    "positions": 150164,
+    "focus_positions": 3087,
+    "diagnostic_errors": 0,
+    "objects": 296151,
+    "frames": 14,
+    "first_frame": 340925930,
+    "last_frame": 340925943,
+    "inconsistent_evaluations": 0
+  },
+  "http": {
+    "observed_at": "2026-11-02T17:52:45.331530+00:00",
+    "concurrency": 8,
+    "samples_per_route": 200,
+    "routes": {
+      "/livez": {
+        "p50_ms": 1.745665998896584,
+        "p95_ms": 3.0316660122480243,
+        "max_ms": 28.120959002990276,
+        "status_codes": [
+          200
+        ],
+        "response_bytes": [
+          6
+        ]
+      },
+      "/readyz": {
+        "p50_ms": 1.802916987799108,
+        "p95_ms": 2.9979170067235827,
+        "max_ms": 4.1747919749468565,
+        "status_codes": [
+          503
+        ],
+        "response_bytes": [
+          419
+        ]
+      },
+      "/status": {
+        "p50_ms": 1.7972909845411777,
+        "p95_ms": 2.461249998304993,
+        "max_ms": 2.984999999171123,
+        "status_codes": [
+          200
+        ],
+        "response_bytes": [
+          419
+        ]
+      },
+      "/metrics": {
+        "p50_ms": 1.9950830028392375,
+        "p95_ms": 2.868790994398296,
+        "max_ms": 4.514083004323766,
+        "status_codes": [
+          200
+        ],
+        "response_bytes": [
+          26020
+        ]
+      },
+      "/report": {
+        "p50_ms": 2.3460840166080743,
+        "p95_ms": 3.99916700553149,
+        "max_ms": 4.5552079973276705,
+        "status_codes": [
+          200
+        ],
+        "response_bytes": [
+          57876
+        ]
+      }
+    },
+    "readiness": {
+      "readiness_reason": "stale_observation",
+      "observation_age_seconds": 505,
+      "observation_freshness": "warn",
+      "coverage_complete": true,
+      "valuation_age_seconds": null,
+      "valuation_basis": "unverified_cached_diagnostics",
+      "ready": false,
+      "current_generation": "run-1793641461405188967-1-0",
+      "current_generation_loaded_at": "2026-11-02T17:52:39.849497045Z",
+      "last_reload_attempted_at": "2026-11-02T17:52:43.852019338Z",
+      "last_reload_error": null
+    }
+  },
+  "grafana": {
+    "panel_queries_validated": 29,
+    "totals_match_report": true,
+    "rendered_browser_review": false,
+    "local_url": "http://127.0.0.1:13000"
+  },
+  "verification": {
+    "rust_tests_passed": 112,
+    "real_postgres": true,
+    "clippy_warnings": 0,
+    "formatting": "passed",
+    "generated_dashboard": "passed",
+    "maintained_file_sizes": "passed"
+  },
+  "limitations": [
+    "No real position/reserve/capability mutation or lifecycle transition in this short interval.",
+    "No demonstrated catch-up: full-market reevaluation on every clock checkpoint is too slow.",
+    "Actual GraphQL attempts, retries and throttling remain uninstrumented; request counts are minima.",
+    "No provider-availability p95, sustained soak, failover/archive test or verified financial valuation.",
+    "Raw captures/logs/database retained locally; large data is gitignored."
+  ],
+  "resource_samples": {
+    "docker_working_set_peak_bytes_approx": {
+      "sentinel-validation-capture-20261102:a194c05d7e67": 42593157,
+      "sentinel-validation-db-20261102:c347a3226df3": 989016883,
+      "sentinel-validation-live-20261102:a6ab1d8bd5a0": 45046825,
+      "sentinel-validation-reconcile-capture-20261102:6b7ec80e4fbc": 161480704,
+      "sentinel-validation-live-20261102:e6bf792b0fab": 71135396,
+      "sentinel-validation-restart-20261102:27f874dd4bd5": 18706596,
+      "sentinel-validation-restart-20261102:0ea9de4b0958": 31855739,
+      "sentinel-validation-reconcile-20261102:a2590faceade": 46242202
+    },
+    "capture_cgroup_memory_peak_bytes": 847790080,
+    "corrected_live_cgroup_memory_peak_bytes": 498667520,
+    "postgres_cgroup_memory_peak_bytes": 2147782656,
+    "caveat": "10-second sampling can miss short working-set peaks. cgroup memory.peak includes filesystem cache and is not process RSS. PostgreSQL measurements include validation/test databases."
+  },
+  "modified_source_sha256": {
+    "src/commands/live.rs": "133b00f8d9808ff5c4b665cf1b58f16df7c15f1f4b696075a817cb2438f42348",
+    "src/state/apply.rs": "9d362d1b03127ccb466ed81bdf508b96d9a951470bd10ba882df1e4a03afd38d",
+    "src/state/tests.rs": "a306a9582a1bc63d9061e3f64e6ed9842ba4fc2b04e350f8b9cfcafd2fedce10",
+    "tests/monitor.rs": "2162945f9043e05ff61ce5b1cc5343db438acd38af3a9cc46919d3b2459c1c64"
+  },
+  "implementation_patch_sha256": "67bd82ee22f6f157435d6fdba4c1f5fc5402ea343f300e4cf19adcb3d0749045"
+}

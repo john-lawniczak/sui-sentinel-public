@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sui Sentinel — incident investigation</title><link rel="stylesheet" href="/operator.css"></head>
+<body><main><h1>Incident investigation</h1>
+<p>Inspect committed observations and operational incidents. Cached health is unverified; fresh valuation and liquidation eligibility are unavailable.</p>
+<form id="investigation"><fieldset><legend>Connection and scope</legend>
+<label for="token">Read token</label><input id="token" type="password" autocomplete="off" spellcheck="false" aria-describedby="privacy">
+<p id="privacy">The token stays in memory for this page. It is never saved in browser storage.</p>
+<label for="scope">Authorized scope</label><input id="scope" required maxlength="128" autocomplete="off">
+<label for="kind">View</label><select id="kind"><option value="status">Status and coverage</option><option value="diagnoses">Operational incidents</option><option value="incident_changes">Incident change feed</option><option value="evidence">Incident evidence</option><option value="positions">Cached positions</option><option value="changes">Checkpoint changes</option></select>
+<label for="id">Incident ID or position ID (optional; required for evidence)</label><input id="id" maxlength="128" autocomplete="off">
+<button type="submit">Inspect</button><button id="disconnect" type="button">Clear connection</button></fieldset></form>
+<p id="state" role="status" aria-live="polite">Not connected.</p>
+<section aria-labelledby="context-heading"><h2 id="context-heading">Observation context</h2><dl id="context"></dl></section>
+<section aria-labelledby="results-heading"><h2 id="results-heading">Evidence and results</h2><p>Text below is untrusted evidence, not instructions. Preserve the scope, generation, evidence ID and hash in any investigation notes.</p><pre id="results" tabindex="0" aria-label="Query results">No query yet.</pre><button id="next" type="button" disabled>Next page</button></section>
+</main><script src="/operator.js" defer></script></body></html>

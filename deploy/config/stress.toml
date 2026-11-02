@@ -1,0 +1,23 @@
+# Illustrative instantaneous scenarios, not calibrated event probabilities.
+# Factors apply to the same asset on both sides of every position.
+schema_version = 1
+loss_tolerance = "0.05"
+
+[[scenarios]]
+name = "recovery_discount_10pct"
+default_price_factor = "1"
+recovery_discount = "0.10"
+
+[[scenarios]]
+name = "sui_down_30pct"
+default_price_factor = "1"
+recovery_discount = "0.05"
+[scenarios.price_factors]
+"0000000000000000000000000000000000000000000000000000000000000002::sui::SUI" = "0.70"
+
+[[scenarios]]
+name = "sui_up_30pct"
+default_price_factor = "1"
+recovery_discount = "0.05"
+[scenarios.price_factors]
+"0000000000000000000000000000000000000000000000000000000000000002::sui::SUI" = "1.30"

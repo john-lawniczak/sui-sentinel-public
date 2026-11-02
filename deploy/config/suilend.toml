@@ -1,0 +1,16 @@
+# Deployment settings for check-config and checkpoint snapshot capture.
+# Observed 2026-10-19. Revalidate the market version and UpgradeCap on startup.
+# Original package identifies Move types; published package identifies callable code.
+[suilend]
+network = "mainnet"
+original_package_id = "0xf95b06141ed4a174f239417323bde3f209b972f5930d8521ea38a52aff3a6ddf"
+published_package_id = "0x59672975e15c58ffc9450f5236b6aa9fa2407d94b8081e634778aa01957d8c6f"
+upgrade_cap_id = "0x3d4ef1859c3ee9fc72858f588b56a09da5466e64f8cc4e90a7b3b909fba8a7ae"
+package_version = 25
+market_version = 7
+lending_market_id = "0x84030d26d85eaa7035084a057f2f11f701b7e2e4eda87551becbc7c97505ece1"
+lending_market_type = "0xf95b06141ed4a174f239417323bde3f209b972f5930d8521ea38a52aff3a6ddf::suilend::MAIN_POOL"
+
+# Discover the obligations table from the live market; do not pin its ID here.
+# The complete asset table awaits verified current Pyth object mappings, stable
+# classifications, and optional DeepBook pool mappings. Missing pools mean UNKNOWN.

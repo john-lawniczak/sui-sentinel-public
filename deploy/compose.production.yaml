@@ -1,0 +1,132 @@
+# Standalone secured R1 candidate. Provision roles/migrations before monitor start.
+# All application images must be supplied by immutable digest after release scans.
+name: sui-sentinel-production
+x-app: &app
+  image: ${SENTINEL_IMAGE:?Set the reviewed application image digest}
+  read_only: true
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+  restart: unless-stopped
+  pids_limit: 64
+  tmpfs: ['/tmp:size=32m,mode=1777']
+  networks: [backend]
+services:
+  postgres:
+    image: ${SENTINEL_POSTGRES_IMAGE:?Set reviewed postgres image digest}
+    environment:
+      POSTGRES_DB: sentinel
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    secrets: [postgres_password]
+    volumes: [database:/var/lib/postgresql/data]
+    networks: [backend]
+    mem_limit: 2g
+    cpus: 2
+    restart: unless-stopped
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U postgres -d sentinel']
+      interval: 5s
+      timeout: 3s
+      retries: 12
+  migrate:
+    <<: *app
+    profiles: [maintenance]
+    restart: 'no'
+    command: [migrate]
+    environment:
+      DIAGNOSIS_DATABASE_URL_FILE: /run/secrets/migration_dsn
+    secrets: [migration_dsn]
+    depends_on:
+      postgres: {condition: service_healthy}
+  monitor:
+    <<: *app
+    command: [monitor, --out, /data, --scope, suilend-main, --config, /config/suilend.toml, --policy, /config/monitoring.toml]
+    environment:
+      SENTINEL_AUTO_MIGRATE: 'false'
+      SENTINEL_DEPLOYMENT_MODE: production
+      DIAGNOSIS_DATABASE_URL_FILE: /run/secrets/monitor_dsn
+      SENTINEL_DELIVERY_DATABASE_URL_FILE: /run/secrets/delivery_dsn
+      SENTINEL_WEBHOOK_URL_FILE: /run/secrets/webhook_url
+      SENTINEL_WEBHOOK_FORMAT: ${SENTINEL_WEBHOOK_FORMAT:-discord}
+      SENTINEL_WEBHOOK_TOKEN_FILE: /run/secrets/webhook_token
+      SUI_GRAPHQL_URL: ${SUI_GRAPHQL_URL:?Set production GraphQL provider}
+      SUI_SNAPSHOT_CHECKPOINT_LAG: ${SUI_SNAPSHOT_CHECKPOINT_LAG:-0}
+      SUI_API_KEY_HEADER: ${SUI_API_KEY_HEADER:-x-token}
+      SUI_API_KEY_FILE: /run/secrets/provider_key
+    secrets: [monitor_dsn, delivery_dsn, webhook_token, webhook_url, provider_key]
+    volumes:
+      - ${SENTINEL_DATA_PATH:?Set owned writable data directory}:/data
+      - ./config/suilend.toml:/config/suilend.toml:ro
+      - ./config/monitoring.mainnet.toml:/config/monitoring.toml:ro
+    depends_on:
+      postgres: {condition: service_healthy}
+    stop_grace_period: 30s
+    mem_limit: 2g
+    cpus: 2
+  exporter:
+    <<: *app
+    command: [serve-dir, --base, /data, --policy, /config/monitoring.toml, --poll-interval-seconds, '5', --listen, '0.0.0.0:9108']
+    volumes:
+      - ${SENTINEL_DATA_PATH:?Set owned data directory}:/data:ro
+      - ./config/monitoring.mainnet.toml:/config/monitoring.toml:ro
+    mem_limit: 512m
+    cpus: 1
+  prometheus:
+    image: ${SENTINEL_PROMETHEUS_IMAGE:?Set reviewed prometheus image digest}
+    command: [--config.file=/etc/prometheus/prometheus.yml, --storage.tsdb.retention.time=7d, --storage.tsdb.retention.size=2GB]
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./alerts.yml:/etc/prometheus/alerts.yml:ro
+      - prometheus:/prometheus
+    networks: [backend]
+    mem_limit: 1g
+    restart: unless-stopped
+  grafana:
+    image: ${SENTINEL_GRAFANA_IMAGE:?Set reviewed grafana image digest}
+    environment:
+      # Viewer access is behind Caddy TLS/auth; there is no host Grafana port.
+      GF_AUTH_ANONYMOUS_ENABLED: 'true'
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+      GF_AUTH_DISABLE_LOGIN_FORM: 'true'
+      GF_AUTH_BASIC_ENABLED: 'false'
+      GF_USERS_ALLOW_SIGN_UP: 'false'
+      GF_ANALYTICS_REPORTING_ENABLED: 'false'
+      GF_ANALYTICS_CHECK_FOR_UPDATES: 'false'
+      GF_SERVER_ROOT_URL: https://${SENTINEL_DOMAIN:?Set production DNS name}
+      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /var/lib/grafana/dashboards/snapshot.json
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafana:/var/lib/grafana
+    networks: [backend]
+    mem_limit: 512m
+    restart: unless-stopped
+  gateway:
+    image: ${SENTINEL_CADDY_IMAGE:?Set reviewed caddy image digest}
+    ports: ['443:443', '80:80']
+    environment:
+      SENTINEL_DOMAIN: ${SENTINEL_DOMAIN:?Set production DNS name}
+      SENTINEL_AUTH_USER: ${SENTINEL_AUTH_USER:?Set viewer account}
+      SENTINEL_AUTH_HASH: ${SENTINEL_AUTH_HASH:?Set Caddy password hash}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - certificates:/data
+      - gateway-config:/config
+    networks: [backend]
+    mem_limit: 256m
+    restart: unless-stopped
+networks:
+  backend: {}
+volumes:
+  database: {}
+  prometheus: {}
+  grafana: {}
+  certificates: {}
+  gateway-config: {}
+secrets:
+  postgres_password: {file: '${SENTINEL_SECRET_DIR:?Set secret directory}/postgres-password'}
+  migration_dsn: {file: '${SENTINEL_SECRET_DIR}/migration-dsn'}
+  monitor_dsn: {file: '${SENTINEL_SECRET_DIR}/monitor-dsn'}
+  delivery_dsn: {file: '${SENTINEL_SECRET_DIR}/delivery-dsn'}
+  webhook_url: {file: '${SENTINEL_SECRET_DIR}/webhook-url'}
+  webhook_token: {file: '${SENTINEL_SECRET_DIR}/webhook-token'}
+  provider_key: {file: '${SENTINEL_SECRET_DIR}/provider-key'}

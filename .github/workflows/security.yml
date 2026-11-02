@@ -1,0 +1,50 @@
+name: Release security evidence
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  secrets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scan the source tree for exposed credentials
+        run: |
+          mkdir evidence
+          scanner=aquasec/trivy:0.76.1@sha256:790fd66d1697395d8693d1acaa1ea702406a20f109b6fc7bac8db623eca6c06c
+          docker run --rm -v "$PWD:/src:ro" -v "$PWD/evidence:/evidence" "$scanner" fs --scanners secret --skip-dirs /src/.git --exit-code 1 --format json --output /evidence/secrets.json /src
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: source-secret-scan
+          path: evidence/secrets.json
+          retention-days: 7
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build source-pinned image
+        run: |
+          mkdir evidence
+          docker build --build-arg SOURCE_REVISION="$GITHUB_SHA" -f deploy/Dockerfile -t sentinel:review .
+          docker image inspect sentinel:review > evidence/image-identity.json
+          docker save sentinel:review -o evidence/image.tar
+      - name: Scan lockfile and runtime image; retain SBOM
+        run: |
+          # Use the same pinned scanner for both scans; no host Docker socket.
+          scanner=aquasec/trivy:0.76.1@sha256:790fd66d1697395d8693d1acaa1ea702406a20f109b6fc7bac8db623eca6c06c
+          docker run --rm -v "$PWD:/src:ro" -v "$PWD/evidence:/evidence" "$scanner" fs --scanners vuln --format json --output /evidence/dependencies.json /src
+          docker run --rm -v "$PWD/evidence:/evidence" "$scanner" image --input /evidence/image.tar --format json --output /evidence/image.json
+          docker run --rm -v "$PWD/evidence:/evidence" "$scanner" image --input /evidence/image.tar --format cyclonedx --output /evidence/sbom.json
+          python3 deploy/ops/check_advisories.py evidence/dependencies.json evidence/image.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: release-security-evidence
+          path: |
+            evidence/*.json
+          retention-days: 30

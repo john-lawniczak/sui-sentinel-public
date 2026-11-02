@@ -1,0 +1,28 @@
+groups:
+  - name: sentinel-operations
+    rules:
+      - alert: SentinelExporterUnavailable
+        expr: up{job="sui-sentinel"} == 0 or absent(up{job="sui-sentinel"})
+        for: 1m
+        labels: {severity: critical}
+        annotations: {summary: 'Sentinel exporter is unavailable; check host and service health'}
+      - alert: SentinelMonitorUnavailable
+        expr: sui_sentinel_monitor_healthy{job="sui-sentinel"} == 0 or absent(sui_sentinel_monitor_healthy{job="sui-sentinel"})
+        for: 2m
+        labels: {severity: critical}
+        annotations: {summary: 'Monitor heartbeat/database missing; inspect /diagnostics/status'}
+      - alert: SentinelObservationDegraded
+        expr: sui_sentinel_exporter_ready{job="sui-sentinel"} == 0
+        for: 1m
+        labels: {severity: warning}
+        annotations: {summary: 'Observation freshness, coverage or operations failed deployed policy'}
+      - alert: SentinelDeliveryNeedsOperator
+        expr: sui_sentinel_notification_dead_letters > 0 or sui_sentinel_notification_oldest_age_seconds > 300
+        for: 1m
+        labels: {severity: critical}
+        annotations: {summary: 'Inspect notification queue; use audited admin recovery command'}
+      - alert: SentinelDiskPressure
+        expr: sui_sentinel_disk_available_bytes < sui_sentinel_disk_minimum_bytes
+        for: 1m
+        labels: {severity: critical}
+        annotations: {summary: 'Capture disk preflight will block; preserve current and pinned evidence'}

@@ -1,0 +1,265 @@
+{
+  "schema_version": 1,
+  "chain_identifier": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+  "checkpoint": {
+    "sequenceNumber": 335839005,
+    "timestamp": "2026-10-19T18:26:47.599Z",
+    "digest": "Bfce5jk1eCjMrsD8whwsdw4rUEwHNgiVghkoFm4q6qS4"
+  },
+  "original_package_id": "0xf95b06141ed4a174f239417323bde3f209b972f5930d8521ea38a52aff3a6ddf",
+  "upgrade_cap": {
+    "address": "0x3d4ef1859c3ee9fc72858f588b56a09da5466e64f8cc4e90a7b3b909fba8a7ae",
+    "version": 852336188,
+    "digest": "GdtshTpaEfmqM4GrNvXdYW74yXg8DT9Ccc5X2dbSELNa",
+    "move_type": "0x0000000000000000000000000000000000000000000000000000000000000002::package::UpgradeCap",
+    "contents": {
+      "id": "0x3d4ef1859c3ee9fc72858f588b56a09da5466e64f8cc4e90a7b3b909fba8a7ae",
+      "package": "0x59672975e15c58ffc9450f5236b6aa9fa2407d94b8081e634778aa01957d8c6f",
+      "policy": 0,
+      "version": "25"
+    },
+    "owner": {
+      "kind": "AddressOwner",
+      "address": "0x920d74c6d9f42dc88af0718f39cef331fb4e0d802d0a30a2ee08767a95873dfc"
+    }
+  },
+  "clock": {
+    "address": "0x0000000000000000000000000000000000000000000000000000000000000006",
+    "version": 997866342,
+    "digest": "BDUdaPTMZ6G6VeC6a3fZXKTX99nrMmHm7KJmKFJp9Aj",
+    "move_type": "0x0000000000000000000000000000000000000000000000000000000000000002::clock::Clock",
+    "contents": {
+      "id": "0x0000000000000000000000000000000000000000000000000000000000000006",
+      "timestamp_ms": "1792434407599"
+    },
+    "owner": {
+      "kind": "Shared",
+      "address": null
+    }
+  },
+  "scope": "explicit_markets",
+  "complete": true,
+  "markets": [
+    {
+      "market": {
+        "object": {
+          "address": "0x0d3a7f758d19d11e8526f66cca43403a99da16862c570c43efe0f8c4a500f7f2",
+          "version": 1048418880,
+          "digest": "GgRmYNr5hqCBq89AQ8CanSn7uQPFDPvj4T64vMW9oRHJ",
+          "move_type": "0xf95b06141ed4a174f239417323bde3f209b972f5930d8521ea38a52aff3a6ddf::lending_market::LendingMarket<0x3628b6ea618a6cca71793bab63e88ea69e10d3a99b5c7b3df88ba01f165015d4::elixir::ELIXIR>",
+          "contents": {
+            "bad_debt_limit_usd": {
+              "value": "0"
+            },
+            "bad_debt_usd": {
+              "value": "0"
+            },
+            "fee_receiver": "0x6191f9a47c411cc169ee4b0292f08531e4d442d4cb9ec61333016d2e9dee1205",
+            "id": "0x0d3a7f758d19d11e8526f66cca43403a99da16862c570c43efe0f8c4a500f7f2",
+            "obligations": {
+              "id": "0xf351f6139d6c39bdc6c217eb523d84b5951bed95287f1f3f4f8bb83721666bf8",
+              "size": "90"
+            },
+            "rate_limiter": {
+              "config": {
+                "max_outflow": "2000000",
+                "window_duration": "3600"
+              },
+              "cur_qty": {
+                "value": "0"
+              },
+              "prev_qty": {
+                "value": "0"
+              },
+              "window_start": "1790616342"
+            },
+            "reserves": [
+              {
+                "array_index": "0",
+                "attributed_borrow_value": {
+                  "value": "0"
+                },
+                "available_amount": "100",
+                "borrowed_amount": {
+                  "value": "60938611106842839703982368"
+                },
+                "borrows_pool_reward_manager": {
+                  "id": "0x7f92d70c8897da890e5ddea796db96f8591ab7ca712adf6147b746d631bf500e",
+                  "last_update_time_ms": "1762263512177",
+                  "pool_rewards": [],
+                  "total_shares": "59924030"
+                },
+                "coin_type": "dba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC",
+                "config": {
+                  "element": {
+                    "additional_fields": {
+                      "id": "0xbabb5436dc3079b1073ffe40d93cf31834661d2287dba373392d0022b47766fa",
+                      "size": "0"
+                    },
+                    "borrow_fee_bps": "0",
+                    "borrow_limit": "0",
+                    "borrow_limit_usd": "5000000",
+                    "borrow_weight_bps": "10000",
+                    "close_attributed_borrow_limit_usd": "0",
+                    "close_ltv_pct": 0,
+                    "deposit_limit": "0",
+                    "deposit_limit_usd": "5000000",
+                    "interest_rate_aprs": [
+                      "0",
+                      "0",
+                      "0",
+                      "0"
+                    ],
+                    "interest_rate_utils": "AF1hZA==",
+                    "isolated": false,
+                    "liquidation_bonus_bps": "300",
+                    "max_close_ltv_pct": 0,
+                    "max_liquidation_bonus_bps": "300",
+                    "open_attributed_borrow_limit_usd": "0",
+                    "open_ltv_pct": 0,
+                    "protocol_liquidation_fee_bps": "299",
+                    "spread_fee_bps": "9500"
+                  }
+                },
+                "ctoken_supply": "14121390",
+                "cumulative_borrow_rate": {
+                  "value": "1016931111671051013"
+                },
+                "deposits_pool_reward_manager": {
+                  "id": "0x9b40cb803e9da7be5d96b6f449ec13fe65a23f3b363385572df31ae171aff3b8",
+                  "last_update_time_ms": "1790321750418",
+                  "pool_rewards": [
+                    {
+                      "additional_fields": {
+                        "id": "0x8a583800e3b373655c5dc1e119ccfec1a43ea762180637e81492ffa436e200d6",
+                        "size": "1"
+                      },
+                      "allocated_rewards": {
+                        "value": "573561122218115194444444444273"
+                      },
+                      "coin_type": "83556891f4a0f233ce7b05cfe7f957d4020492a34f5405b2cb9377d060bef4bf::spring_sui::SPRING_SUI",
+                      "cumulative_rewards_per_share": {
+                        "value": "1363378367550188931"
+                      },
+                      "end_time_ms": "1762317214104",
+                      "id": "0x3d1bec7ac28f9443fdf3342dbe3b49da3a2f9ddeb66b74e1ed67c205691b30b8",
+                      "num_user_reward_managers": "47",
+                      "pool_reward_manager_id": "0x9b40cb803e9da7be5d96b6f449ec13fe65a23f3b363385572df31ae171aff3b8",
+                      "start_time_ms": "1761609600000",
+                      "total_rewards": "0"
+                    }
+                  ],
+                  "total_shares": "14121390"
+                },
+                "id": "0xe997e8b971019ad4ae7c3b537c270844d6b053d010534485d40356fb9f2a4854",
+                "interest_last_update_timestamp_s": "1790321750",
+                "lending_market_id": "0x0d3a7f758d19d11e8526f66cca43403a99da16862c570c43efe0f8c4a500f7f2",
+                "mint_decimals": 6,
+                "price": {
+                  "value": "999749090000000000"
+                },
+                "price_identifier": {
+                  "bytes": "6qAgxhzEeXEoE0Yc4VOJSpamwAsh7Qz8J5jR+anpyUo="
+                },
+                "price_last_update_timestamp_s": "1768771959",
+                "smoothed_price": {
+                  "value": "999748140000000000"
+                },
+                "unclaimed_spread_fees": {
+                  "value": "46493133196137284051952109"
+                }
+              },
+              {
+                "array_index": "1",
+                "attributed_borrow_value": {
+                  "value": "0"
+                },
+                "available_amount": "90877821",
+                "borrowed_amount": {
+                  "value": "0"
+                },
+                "borrows_pool_reward_manager": {
+                  "id": "0x7911241e232c2995212b5f7f273780a7c38c099eae37efd8bce9ca2e95100372",
+                  "last_update_time_ms": "0",
+                  "pool_rewards": [],
+                  "total_shares": "0"
+                },
+                "coin_type": "f6b468748dced8435f4407d0ecb0457b921a2e89266a60862e36dbf243c71841::sdeusd::SDEUSD",
+                "config": {
+                  "element": {
+                    "additional_fields": {
+                      "id": "0x90df4f3039c89a6e4265f4aec52668b427ac267cec67a94266410a76b3ee9853",
+                      "size": "0"
+                    },
+                    "borrow_fee_bps": "0",
+                    "borrow_limit": "0",
+                    "borrow_limit_usd": "0",
+                    "borrow_weight_bps": "10000",
+                    "close_attributed_borrow_limit_usd": "0",
+                    "close_ltv_pct": 0,
+                    "deposit_limit": "0",
+                    "deposit_limit_usd": "0",
+                    "interest_rate_aprs": [
+                      "400",
+                      "700",
+                      "1500",
+                      "15000"
+                    ],
+                    "interest_rate_utils": "AF1hZA==",
+                    "isolated": false,
+                    "liquidation_bonus_bps": "300",
+                    "max_close_ltv_pct": 93,
+                    "max_liquidation_bonus_bps": "300",
+                    "open_attributed_borrow_limit_usd": "0",
+                    "open_ltv_pct": 0,
+                    "protocol_liquidation_fee_bps": "299",
+                    "spread_fee_bps": "2000"
+                  }
+                },
+                "ctoken_supply": "90877821",
+                "cumulative_borrow_rate": {
+                  "value": "1004167417874084177"
+                },
+                "deposits_pool_reward_manager": {
+                  "id": "0xa5f0856271b610576ed533b1b7d8a1252bd15575aa137ca49168b31c981c09aa",
+                  "last_update_time_ms": "1763819638663",
+                  "pool_rewards": [],
+                  "total_shares": "90877821"
+                },
+                "id": "0x3bfc2bbd9f8c98851781be534e3ecca931d42a89f28d7f42942ec588f695f662",
+                "interest_last_update_timestamp_s": "1763819638",
+                "lending_market_id": "0x0d3a7f758d19d11e8526f66cca43403a99da16862c570c43efe0f8c4a500f7f2",
+                "mint_decimals": 6,
+                "price": {
+                  "value": "999781990000000000"
+                },
+                "price_identifier": {
+                  "bytes": "6qAgxhzEeXEoE0Yc4VOJSpamwAsh7Qz8J5jR+anpyUo="
+                },
+                "price_last_update_timestamp_s": "1763819638",
+                "smoothed_price": {
+                  "value": "999771010000000000"
+                },
+                "unclaimed_spread_fees": {
+                  "value": "0"
+                }
+              }
+            ],
+            "version": "7"
+          },
+          "owner": {
+            "kind": "Shared",
+            "address": null
+          }
+        },
+        "type_argument": "0x3628b6ea618a6cca71793bab63e88ea69e10d3a99b5c7b3df88ba01f165015d4::elixir::ELIXIR",
+        "table_id": "0xf351f6139d6c39bdc6c217eb523d84b5951bed95287f1f3f4f8bb83721666bf8",
+        "expected_obligations": 90
+      },
+      "obligations": 90,
+      "obligations_exhausted": true,
+      "owner_caps": 89,
+      "owner_caps_exhausted": true
+    }
+  ]
+}

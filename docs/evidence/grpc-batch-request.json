@@ -1,0 +1,19 @@
+{
+  "requests": [
+    {
+      "object_id": "0xadb6290838afb11a4f631d310fe4a9c3eacc829413160bdde8ad9f096384c826"
+    },
+    {
+      "object_id": "0x4f3cd9026824aa2d2921435ee68ee05d47b7f1db29364e6d3319c88bc2d45c30"
+    }
+  ],
+  "read_mask": {
+    "paths": [
+      "object_id",
+      "version",
+      "digest",
+      "object_type",
+      "json"
+    ]
+  }
+}

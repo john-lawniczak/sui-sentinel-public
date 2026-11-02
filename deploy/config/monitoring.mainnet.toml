@@ -1,0 +1,20 @@
+# Cached-monitoring release candidate: selected QuickNode census took 1341.65 s.
+# Hourly scheduling and 40-minute deadline remain provisional pending repeated
+# account-capacity/soak measurements; these are cached-observation budgets.
+schema_version = 1
+[capture]
+interval_seconds = 3600
+deadline_seconds = 2400
+[readiness]
+expected_scope = "explicit_markets"
+expected_market_ids = ["0x84030d26d85eaa7035084a057f2f11f701b7e2e4eda87551becbc7c97505ece1"]
+[operations]
+require_monitor = true
+heartbeat_max_age_seconds = 90
+min_free_bytes = 5368709120
+retain_generations = 8
+retain_seconds = 86400
+max_run_records = 10000
+open_after_seconds = 15
+resolve_after_seconds = 30
+reminder_seconds = 3600

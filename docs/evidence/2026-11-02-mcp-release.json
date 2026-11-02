@@ -1,0 +1,208 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-02",
+  "scope": "cached monitoring and read-only MCP; production not activated",
+  "quicknode_census": {
+    "checkpoint": {
+      "sequenceNumber": 340955467,
+      "timestamp": "2026-11-02T19:44:21.701Z",
+      "digest": "A7SsCuLkWVhteq5UVaX4UajiQmZdvnTMUyxB2f1T6EUq"
+    },
+    "complete": true,
+    "positions": 150166,
+    "owner_capabilities": 145986,
+    "duration_seconds": 1341.653009113,
+    "transport": {
+      "attempts": 5928,
+      "retries": 0,
+      "throttled": 0,
+      "response_bytes": 503240989,
+      "failed_attempts": 0
+    },
+    "report_provenance": {
+      "build": {
+        "revision": "4f72f03-candidate",
+        "executable_sha256": "bbad472a5431b6d7dc3bf5d658d8716d48006848062a5d61094230581b37777c",
+        "version": "0.1.0",
+        "adapter": "suilend.cached.v1"
+      },
+      "artifact_revision": 2,
+      "raw_input_sha256": "55ac79d42a32b1f40f48c6d6a0a9c74f8b7913394c15bc34d3d1b5bb5549af43",
+      "capture_config_sha256": "25d81461da5a92f6bd3b4f863a4be875dddd33241ee014cebd26275244bac1d1",
+      "run_id": "run-1793648711671633378-1-0",
+      "adapter_version": "0.1.0",
+      "chain_identifier": "4btiuiMPvEENsttpZC7CZ53DruC3MAgfznDbASZ7DR6S",
+      "original_package_id": "0xf95b06141ed4a174f239417323bde3f209b972f5930d8521ea38a52aff3a6ddf",
+      "upgrade_cap_object_version": 852336188,
+      "stress_policy_sha256": "a86f68c3ce626131a2753dc581103bf2234d88cad11877cc9e3561043bdfb86a",
+      "generated_at": "2026-11-02T20:07:31.760764304Z"
+    },
+    "artifact_sha256": {
+      "manifest.json": "f0c21eafbaf23e13289f6ee040d484964aa5bc0357feb47a30f4e92ba6d82aed",
+      "checksums.json": "55ac79d42a32b1f40f48c6d6a0a9c74f8b7913394c15bc34d3d1b5bb5549af43",
+      "report.json": "5a5bf2e6cb0031e2813a4b9305fb732be4cebe4a6e488d699499b860ddb89112"
+    },
+    "initial_failures": [
+      "head checkpoint scope unavailable; no publication",
+      "900-second deadline exceeded; no publication"
+    ],
+    "checkpoint_selection": "head minus 200, pinned once; successful run used 3600-second validation budget",
+    "new_policy": {
+      "interval_seconds": 3600,
+      "deadline_seconds": 2400,
+      "provisional": true
+    }
+  },
+  "performance": {
+    "clock_debug_baseline": {
+      "checkpoints_per_second": 17.575316249234394,
+      "evaluation_hash_unchanged": true,
+      "limitation": "Not a live provider or mixed-mutation benchmark; synthetic database must never resume mainnet ingestion.",
+      "median_seconds": 0.054310917,
+      "p95_seconds": 0.061408792,
+      "p99_seconds": 0.118358208,
+      "positions": 150164,
+      "workload": "100 synthetic clock-only checkpoints over restored full main-market book"
+    },
+    "clock_market_release": {
+      "checkpoints_per_second": 41.918358041953006,
+      "evaluation_hash_unchanged": true,
+      "limitation": "Not a live provider or mixed-mutation benchmark; synthetic database must never resume mainnet ingestion.",
+      "median_seconds": 0.023472917,
+      "p95_seconds": 0.026953125,
+      "p99_seconds": 0.032441166,
+      "positions": 150164,
+      "queries": 200,
+      "query_concurrency": 2,
+      "query_p95_seconds": 0.01087,
+      "workload": "100 synthetic clock and unchanged-reserve market updates over restored full main-market book"
+    },
+    "environment": "macOS native Rust client; local Docker PostgreSQL 17 with 2 CPUs/2 GiB; restored and compacted 150164-position book; no provider ingestion in benchmark",
+    "database_bytes": 1384863411,
+    "limitations": [
+      "synthetic clock and unchanged-market mapping workload only",
+      "no measured fresh valuation or full real mixed-mutation ingestion SLA",
+      "debug and release observations are not a controlled speedup comparison"
+    ]
+  },
+  "recovery": {
+    "timings": {
+      "local_backup_seconds": 6.512422832980519,
+      "local_restore_seconds": 10.974940832995344,
+      "schema_version": 8,
+      "hosted_pitr_proven": false
+    },
+    "validation": {
+      "checkpoint": "340926143",
+      "evaluation_md5": "8b073f5347788a15dc6dcfbd9dd3cd43",
+      "exact_replay_no_op": true,
+      "fresh_risk_supported": false,
+      "hosted_pitr_proven": false,
+      "positions": "150164"
+    },
+    "incident_journal_marker_preserved": true,
+    "source_evaluation_md5": "8b073f5347788a15dc6dcfbd9dd3cd43",
+    "hosted_pitr": false
+  },
+  "hosted": {
+    "app": "sui-sentinel-r1",
+    "region": "iad",
+    "launch_no_deploy": true,
+    "fly_config_validated": true,
+    "machines": 0,
+    "secrets_staged": [
+      "SUI_GRAPHQL_URL",
+      "SUI_API_KEY",
+      "SENTINEL_WEBHOOK_URL"
+    ],
+    "database": "Fly Managed Postgres prepared; provisioning awaits budget approval",
+    "production_deployed": false,
+    "seven_day_soak_completed": false
+  },
+  "discord": {
+    "attempts": 1,
+    "discord_http_accepted": true,
+    "error": null,
+    "human_channel_acknowledgement": false,
+    "outbox_id": "296",
+    "production_activated": false,
+    "scope": "TEST-ONLY-discord-1793648780",
+    "test_only": true
+  },
+  "verification": {
+    "rust_tests_with_postgres": 135,
+    "python_tests": 2,
+    "fmt": true,
+    "clippy_warnings_denied": true,
+    "js_syntax": true,
+    "file_limits": true,
+    "grafana_generator": true,
+    "postgres_role_grants_and_journal": true,
+    "linux_mcp_initial_candidate": {
+      "linux_stdio_passed": true,
+      "positions": "150164",
+      "build": {
+        "adapter": "suilend.cached.v1",
+        "executable_sha256": "2e6ebd5e3fed2a58da947084fcc02be90ae2d844e8ba701a05c799c6867dcab2",
+        "revision": "31c10d23febea3fea1c220fbd17092002151e448-mcp-candidate",
+        "version": "0.1.0"
+      },
+      "execution_eligible": false
+    },
+    "high_critical_advisories": 0,
+    "rendered_browser": {
+      "passed": false,
+      "reason": "Browser runtime failed with Cannot redefine property: process, including after kernel reset"
+    },
+    "final_cursor_regression_tests": 2
+  },
+  "local_evidence_directory": "snapshots/mcp-release-2026-11-02",
+  "local_evidence_sha256": {
+    "tests-final.log": "a4c455f982d5c1878aac7ff0e1e9b7073761971406963b23e4b60aa9e5038eba",
+    "query-scope-test.log": "e6d1925210e61097293f6995a1c774b56f2f2e2ba0d846d88b71b591bb0faf34",
+    "final-census-validation.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dependencies.json": "b6faaba753e4e07f9da839b532b4b1432d4c4c4c1ef884d852435a0338302828",
+    "image.json": "57b8e7e79d264af4daaf9678a6238585afe078e167dba5b73061f62d559bd7c5",
+    "sbom.json": "3d6d4d120244520c0d7051151c31181eacce1472e36c4d161ba294e71bbf8dc2",
+    "linux-mcp.json": "b98ab618d2f2ed0d755207ba3085b0c995a571fbe5297234a7a731faf0317421",
+    "market-benchmark.json": "983b01940ebd2a6dcabffc3af7b32e47613c4c315d70658dbabdb34a669b1241",
+    "restore-v8-validation.json": "eb10ef1d06251f55ec18184669a5bfc95b78a9d01089caf89d2a555c161b4ad1",
+    "restore-v8-timings.json": "0624fae3794b1ffd8bf40369268af1a2ee345d5e4195073772a601963aab06b4",
+    "restored-incident-marker.txt": "eaa46f6929356cf616958c0e90ff35c41c4e364b1587d20449d49ede152a9348",
+    "linux-mcp-pinned.json": "2a9e8de8cf56d7797479243d2c72d69a292d8225f97fbe01d9f077fe793aac78",
+    "pinned-census-validation.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "image-pinned.json": "37773e7a15637207733a39a63b0af5a614266c1f83b2b8e4984a7c25b548c0df",
+    "sbom-pinned.json": "4e85f6726f025df38ead6449fc572c11c137036594e9b87fe4e8a7e9dd63a36e",
+    "feed-cursor-final.log": "5f3bfb16a35a559c3d287a60912f99faaac8b6846ac76232b0b084a5d40ea251"
+  },
+  "open_gates": [
+    "hosted PostgreSQL provisioning and PITR/RPO/RTO",
+    "off-host encrypted capture backup",
+    "hosted network and receiver recovery",
+    "seven-day hosted soak",
+    "real mixed checkpoint throughput and reconciliation",
+    "fresh valuation and liquidation correctness",
+    "rendered/accessibility/operator acceptance",
+    "second protocol adapter",
+    "public OAuth/per-user MCP authorization",
+    "supervised LLM jobs, costs, citations and evaluations"
+  ],
+  "source_pinned_runtime": {
+    "linux_stdio_passed": true,
+    "tools": 8,
+    "positions": "150164",
+    "build": {
+      "adapter": "suilend.cached.v1",
+      "executable_sha256": "53fb1f786834f2296abd56872cf10d3c1381ab7b268697f1167894d77d97f747",
+      "revision": "0e02205dba0ac6f335a69fc1664e4be82af4058e",
+      "version": "0.1.0"
+    },
+    "restored_incident_feed_passed": true,
+    "cursor_resume_passed": true,
+    "execution_eligible": false,
+    "image_id": "sha256:38b3d337fd0f033254fe28d9c7237d35a71dba427139373f6de3cd41b1dab866",
+    "runtime_user": "65532:65532",
+    "quicknode_artifacts_revalidated": true,
+    "high_critical_advisories": 0
+  }
+}
